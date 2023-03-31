@@ -69,7 +69,7 @@
                                         </a>
                                         <div tabindex="-1" role="menu" aria-hidden="true"
                                             class="dropdown-menu dropdown-menu-right">
-                                            <button type="button" tabindex="0" class="dropdown-item"><?php echo $_SESSION['email']?></button>
+                                            <button type="button" tabindex="0" class="dropdown-item"><?php echo $_SESSION['user']['name']?></button>
                                             <div tabindex="-1" class="dropdown-divider"></div>
                                             <a href="../../process/logout.php" type="button" tabindex="0" class="dropdown-item">Logout</a>
                                         </div>

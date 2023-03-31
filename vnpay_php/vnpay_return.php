@@ -104,14 +104,15 @@
                                     $users[] = $row;
                                 }
                             }
+                            $ship_address = $_SESSION['address'];
                             foreach ($users as $index => $user) {
-                                if (!empty($_SESSION['email'])) {
-                                    if ($user['email'] == $_SESSION['email']) {
+                                if (!empty($_SESSION['user']['email'])) {
+                                    if ($user['email'] == $_SESSION['user']['email']) {
                                         $user_id = $user['user_id'];
                                         $payment_method_id = 3;
-                                        $sql_order = 'INSERT INTO orders(user_id, payment_method_id) VALUES(?, ?)';
+                                        $sql_order = 'INSERT INTO orders(user_id, payment_method_id, ship_address) VALUES(?, ?, ?)';
                                         $stmt_order = $connection->prepare($sql_order);
-                                        $stmt_order->bind_param('ii', $user_id, $payment_method_id);
+                                        $stmt_order->bind_param('iis', $user_id, $payment_method_id, $ship_address);
                                         if ($stmt_order->execute()) {
                                             $order_id = mysqli_insert_id($connection);
                                             $sql_order_detail = 'INSERT INTO order_detail(order_id, product_id, product_price, product_quantity) VALUES (?, ?, ?, ?)';
@@ -125,6 +126,7 @@
                                                     $stmt_order_detail->execute();
                                                 }
                                                 unset($_SESSION["cart"]);
+                                                unset($_SESSION['address']);
                                             }
 
                                         } else {
@@ -133,12 +135,12 @@
                                     }
                                 }
                             }
-
-                            echo "<span style='color:blue'>GD Thanh cong</span>";
-                            header('Location: ../app/views/user_views/index.php');
+                            echo "<span style='color:blue'>GD Thanh cong</span><br>";
+                            
+                            // header('Location: ../app/views/user_views/index.php');
                             $order_id = $_GET['vnp_TxnRef']; // assume vnp_TxnRef is the order ID
                             $sql = "UPDATE orders SET is_paid = TRUE WHERE order_id = $order_id";
-                            exit();
+                            
                             // execute the SQL statement to update the 'is_paid' column of the order with ID = $order_id
                         } else {
                             echo "<span style='color:red'>GD Khong thanh cong</span>";
@@ -149,6 +151,8 @@
                     ?>
 
                 </label>
+                <br>
+                <?php echo '<a href="../app/views/user_views/index.php" class="btn btn-success" >Home</a>';?>
             </div>
         </div>
         <p>

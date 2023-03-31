@@ -39,9 +39,10 @@ session_start();
                     }
                 }
                     ?>
-                    <input class="form-control" data-val="true" data-val-number="The field Amount must be a number."
+                    <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number."
                         data-val-required="The Amount field is required." id="amount" name="amount" type="number"
-                        value="<?php echo $total_price; ?>" />
+                        value="<?php echo  $total_price; ?>" disabled/>
+                        <span> <?php echo number_format($total_price).'đ' ; ?> </span>
 
                 </div>
                 <!-- <h4>Chọn phương thức thanh toán</h4>

@@ -1,10 +1,13 @@
 <?php 
 session_start();
-if(empty($_SESSION['user'])){
+if(empty($_SESSION['user']['email'])){
+
 	header('Location: ../../views/auth/index.php');
 	exit;
 }
+
 ?>
+
 <!doctype html>
 <html lang="en">
 

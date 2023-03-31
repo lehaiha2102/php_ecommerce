@@ -41,6 +41,7 @@ if(empty($_SESSION['user'])){
                                             <th>Total price</th>
                                             <th>Payment method</th>
                                             <th>Status</th>
+                                            <th>Address</th>
                                             <th>Time</th>
                                             <th>Detail</th>
                                         </tr>
@@ -109,6 +110,9 @@ if(empty($_SESSION['user'])){
                                                             } ?>>Cancelled</option>
                                                         </select>
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    <?php echo $order['ship_address']; ?>
                                                 </td>
                                                 <td>
                                                     <?php echo $order['create_at']; ?>

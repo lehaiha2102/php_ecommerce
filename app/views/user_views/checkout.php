@@ -96,17 +96,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 							<!-- Top Search
 							============================================= -->
 							<div id="top-account">
-								<?php
-								if (!empty($_SESSION['email'])) { ?>
 									<i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i><span
 										class="d-none d-sm-inline-block font-primary fw-medium">
-										<?php echo $_SESSION['email'] ?>
+										<?php echo $_SESSION['user']['name'] ?>
 									</span>
-								<?php } else { ?>
-									<a href="../../views/auth/index.php"><i class="icon-line2-user me-1 position-relative"
-											style="top: 1px;"></i><span
-											class="d-none d-sm-inline-block font-primary fw-medium">Login</span></a>
-								<?php } ?>
+								
 							</div><!-- #top-search end -->
 
 							<!-- Top Cart
@@ -328,9 +322,9 @@ require_once('../../views/user_views/components/head.php'); ?>
                         <div class="col-lg-6">
                             <h3><span><i class="icon-line2-pointer"></i> </span>Shipping address</h3>
                                         <?php
-                                        if (!empty($_SESSION['email']))
+                                        if (!empty($_SESSION['user']))
                                             foreach ($users as $user) {
-                                                if ($_SESSION['email'] == $user['email']) {
+                                                if ($_SESSION['user']['email'] == $user['email']) {
                                                     ?>
                                                     <form id="shipping-form" name="shipping-form" class="row mb-0" action="../../process/checkout.php" method="post">
                                                         <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
@@ -341,6 +335,7 @@ require_once('../../views/user_views/components/head.php'); ?>
                                                         </div>
                                                         <div class="w-100"></div>
                                                         <div class="col-12 form-group">
+                                                            
                                                             <label for="shipping-form-address">Address:</label>
                                                             <input type="text" id="shipping-form-address" name="address" value="<?php echo $user['address']; ?>"
                                                                 class="sm-form-control" />

@@ -20,7 +20,7 @@
         $product_image_2 = $_FILES["product_image_2"]["name"] ? $_FILES["product_image_2"]["name"] : $_POST["existing_image_2"];
         $product_image_3 = $_FILES["product_image_3"]["name"] ? $_FILES["product_image_3"]["name"] : $_POST["existing_image_3"];
 
-        $target_dir = "./public/images/";
+        $target_dir = "../../public/image/";
         $target_file1 = $target_dir . basename($product_image_1);
     
         if (move_uploaded_file($_FILES["product_image_1"]["tmp_name"], $target_file1)) {

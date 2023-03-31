@@ -28,7 +28,7 @@ if(!empty($_SESSION['user'])){
                 <input type="text" name="fullname" id="fullname" placeholder="Name" />
                 <span style="color:red;" id="fullnameError"></span>
 
-                <input type="email" name="email" id="emailregister" placeholder="Email" />
+                <input type="text" name="email" id="emailregister" placeholder="Email" />
                 <span style="color:red;" id="emailregisterError"></span>
 
                 <input type="text" name="phone" id="phone" placeholder="Phone">

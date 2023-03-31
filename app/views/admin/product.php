@@ -66,8 +66,7 @@ if(empty($_SESSION['user'])){
                                                         <td><?php echo $product['product_quantity'];?></td>
                                                         <td>
                                                             <img src="../../../public/image/<?php echo $product['product_image_1'];?>" alt="<?php echo $product['product_image_1'];?>" style="width:100px; height:50px;">
-                                                            <img src="../../../public/image/<?php echo $product['product_image_2'];?>" alt="<?php echo $product['product_image_2'];?>" style="width:100px; height:50px;">
-                                                            <img src="../../../public/image/<?php echo $product['product_image_3'];?>" alt="<?php echo $product['product_image_3'];?>" style="width:100px; height:50px;">
+                                                
                                                             </td>
                                                         <td><?php echo $product['product_description'];?></td>
                                                         <td>

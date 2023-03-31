@@ -125,17 +125,12 @@ mysqli_close($connection);
                             <!-- Top Search
                             ============================================= -->
                             <div id="top-account">
-                                <?php
-                                if (!empty($_SESSION['email'])) { ?>
+                              
                                     <i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i><span
                                         class="d-none d-sm-inline-block font-primary fw-medium">
-                                        <?php echo $_SESSION['email'] ?>
+                                        <?php echo $_SESSION['user']['name'] ?>
                                     </span>
-                                <?php } else { ?>
-                                    <a href="../../views/auth/index.php"><i class="icon-line2-user me-1 position-relative"
-                                            style="top: 1px;"></i><span
-                                            class="d-none d-sm-inline-block font-primary fw-medium">Login</span></a>
-                                <?php } ?>
+                               
                             </div><!-- #top-search end -->
 
                             <!-- Top Cart

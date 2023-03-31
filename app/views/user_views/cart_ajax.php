@@ -135,7 +135,7 @@
                 </div>
             </div>
             <div class="col-lg-auto pe-lg-0">
-                <a href="shop.html" class="button button-3d mt-2 mt-sm-0 me-0">Proceed to
+                <a href="../../views/user_views/checkout.php" class="button button-3d mt-2 mt-sm-0 me-0">Proceed to
                     Checkout</a>
             </div>
         </div>

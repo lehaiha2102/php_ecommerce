@@ -109,12 +109,13 @@ class User{
             $row = $result_check_email->fetch_assoc();
             $_SESSION['user'] = array(
                 'id' => $row['user_id'],
+                'name'=>$row['fullname'],
                 'email' => $email,
                 'role_id' => $row['role_id']
             );
             if($_SESSION['user']['role_id'] == 1){
                 return 'admin';
-            } else{
+            } else if($_SESSION['user']['role_id'] == 2){
                 return 'user';
             }
         } else{
