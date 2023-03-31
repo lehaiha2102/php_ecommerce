@@ -18,5 +18,4 @@
             header('Location: ../views/user_views/index.php');
             exit;
         }
-    // } else{ echo 'no login';}
 ?>

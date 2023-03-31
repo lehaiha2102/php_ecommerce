@@ -2,6 +2,7 @@
     require_once('../../app/classes/product.php');
 
     // if(isset($_POST['product_name']) && isset($_POST['product_import_price']) && isset($_POST['product_price']) && isset($_POST['product_promotion_price']) && isset($_POST['product_quantity']) && isset($_FILES['product_image_1']) && isset($_FILES['product_image_2']) && isset($_FILES['product_image_3']) && isset($_POST['product_description']) && isset($_POST['category_id'])){
+        if(isset($_POST['product_add']) && !empty($_POST['product_name']) && !empty($_POST['product_import_price']) && !empty($_POST['product_price']) && !empty($_POST['product_quantity'] ) && !empty($_FILES['product_image_1'])  && !empty($_FILES['product_image_2'])  && !empty($_FILES['product_image_3'])){
         $product_name = $_POST['product_name'];
         $product_import_price = $_POST['product_import_price'];
         $product_price = $_POST['product_price'];
@@ -12,6 +13,14 @@
         $product_image_3 = $_FILES["product_image_3"]["name"];
         $target_dir = "../../public/image/";
         $target_file1 = $target_dir . basename($product_image_1);
+        echo  $product_name;
+        echo  $product_import_price;
+        echo  $product_price;
+        echo  $product_promotion_price;
+        echo  $product_quantity;
+        echo  $product_image_1;
+        echo  $product_image_2;
+        echo  $product_image_3;
     
         if (move_uploaded_file($_FILES["product_image_1"]["tmp_name"], $target_file1)) {
         } else {
@@ -38,5 +47,10 @@
             header('Location: ../views/admin/product.php');
             exit;
         }
-    // }
+    }else{
+        echo '<script>
+            alert("You need to fill in the information of the product to proceed with adding new products");
+            window.location.replace("../views/admin/product.php");
+            </script>';
+    }
 ?>

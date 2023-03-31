@@ -88,9 +88,9 @@ class User{
                 $stmt_register = $connection->prepare($sql_register);
                 $stmt_register->bind_param('sssss', $fullname, $email, $phone, $password, $address);
                 if($stmt_register->execute()){
-                    return true;
+                    return 'success';
                 } else{
-                    return false;
+                    return 'failed';
                 }
             }
         }
@@ -100,28 +100,29 @@ class User{
     public function login($email, $password){
         global $connection;
         $password = sha1($password);
-        $sql_check_email = 'SELECT * FROM users WHERE email = ?  AND password = ?';
+        $sql_check_email = 'SELECT * FROM users WHERE email = ? AND password = ?';
         $stmt_check_email = $connection->prepare($sql_check_email);
         $stmt_check_email->bind_param('ss', $email, $password);
         $stmt_check_email->execute();
         $result_check_email = $stmt_check_email->get_result();
-        if($result_check_email->num_rows  === 1){
-            while ($row = $result_check_email->fetch_assoc()) {
-                $_SESSION['user'] = array(
-                    'email' => $email,
-                    'role_id' => $row['role_id']
-                );
-                if( $_SESSION['user']['role_id'] == 1){
-                    return 'admin';
-                } else{
-                    return 'user';
-                }
+        if($result_check_email->num_rows === 1){
+            $row = $result_check_email->fetch_assoc();
+            $_SESSION['user'] = array(
+                'id' => $row['user_id'],
+                'email' => $email,
+                'role_id' => $row['role_id']
+            );
+            if($_SESSION['user']['role_id'] == 1){
+                return 'admin';
+            } else{
+                return 'user';
             }
         } else{
             header('Location: ../views/auth/index.php');
             exit;
         }
     }
+    
     
 }
 

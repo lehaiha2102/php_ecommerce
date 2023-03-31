@@ -102,60 +102,89 @@ require_once('../../views/user_views/components/head.php'); ?>
 							<!-- Top Cart
 							============================================= -->
 							<div id="top-cart" class="header-misc-icon d-none d-sm-block">
-								<a href="#" id="top-cart-trigger">
-									<i class="icon-line-bag"></i>
-									<?php if (!empty($_SESSION['cart'])) {
-										$total_quantity = 0;
-											foreach ($_SESSION['cart'] as $index => $cart_item) {
-												$total_quantity += $cart_item['quantity'];
-											}}else{
-												$total_quantity = 0;
-											}?>
-									<span class="top-cart-number"><?php echo $total_quantity; ?></span>
-								</a>
-								<div class="top-cart-content">
-									<div class="top-cart-title">
-										<h4>Shopping Cart</h4>
-									</div>
-									<div class="top-cart-items">
-										<?php if (!empty($_SESSION['cart'])) {
-											foreach ($_SESSION['cart'] as $index => $cart_item) {
-												?>
-												<div class="top-cart-item">
-													<div class="top-cart-item-image">
-														<a href="#"><img
-																src="../../../public/image/<?php echo $cart_item['image'] ?>"
-																alt="<?php echo $cart_item['name'] ?>" /></a>
-													</div>
-													<div class="top-cart-item-desc">
-														<div class="top-cart-item-desc-title">
-															<a href="#">
-																<?php echo $cart_item['name'] ?>
-															</a>
-															<span class="top-cart-item-price d-block">
-															$<?php echo number_format($cart_item['price'], 0, '.', ',');?>
-															</span>
-														</div>
-														<div class="top-cart-item-quantity">x
-															<?php echo $cart_item['quantity'] ?>
-														</div>
-													</div>
-												</div>
-											<?php }
-										} else{
-											echo 'Add new products to cart';
-										}?>
-									</div>
-									<div class="top-cart-action">
-									<?php if (!empty($_SESSION['cart'])) {
-										$total_price = 0;
-											foreach ($_SESSION['cart'] as $index => $cart_item) {
-												$total_price += $cart_item['quantity'] * $cart_item['price'] ;
-											}} else{
-												$total_price = 0;
-											} ?>
-										<span class="top-checkout-price">
-										$<?php echo number_format($total_price, 0, '.', ',');?>	</span>
+	<a href="#" id="top-cart-trigger">
+		<i class="icon-line-bag"></i>
+		<?php 
+			if (!empty($_SESSION['cart'])) {
+				$total_quantity = 0;
+				$unique_products = array();
+				foreach ($_SESSION['cart'] as $index => $cart_item) {
+					$total_quantity += $cart_item['quantity'];
+					if (!in_array($cart_item['name'], $unique_products)) {
+						array_push($unique_products, $cart_item['name']);
+					}
+				}
+				$num_unique_products = count($unique_products);
+				if ($num_unique_products > 3) {
+					$num_displayed_products = 3;
+				} else {
+					$num_displayed_products = $num_unique_products;
+				}
+			} else {
+				$total_quantity = 0;
+				$num_displayed_products = 0;
+			}
+		?>
+		<span class="top-cart-number"><?php echo $total_quantity; ?></span>
+	</a>
+	<div class="top-cart-content">
+		<div class="top-cart-title">
+			<h4>Shopping Cart</h4>
+		</div>
+		<div class="top-cart-items">
+			<?php 
+				if (!empty($_SESSION['cart'])) {
+					$displayed_products = array();
+					foreach ($_SESSION['cart'] as $index => $cart_item) {
+						if (in_array($cart_item['name'], $displayed_products)) {
+							continue;
+						}
+						array_push($displayed_products, $cart_item['name']);
+						if (count($displayed_products) > $num_displayed_products) {
+							break;
+						}
+						?>
+						<div class="top-cart-item">
+							<div class="top-cart-item-image">
+								<a href="#"><img
+									src="../../../public/image/<?php echo $cart_item['image'] ?>"
+									alt="<?php echo $cart_item['name'] ?>" /></a>
+							</div>
+							<div class="top-cart-item-desc">
+								<div class="top-cart-item-desc-title">
+									<a href="#">
+										<?php echo $cart_item['name'] ?>
+									</a>
+									<span class="top-cart-item-price d-block">
+										$<?php echo number_format($cart_item['price'], 0, '.', ',');?>
+									</span>
+								</div>
+								<div class="top-cart-item-quantity">x
+									<?php echo $cart_item['quantity'] ?>
+								</div>
+							</div>
+						</div>
+					<?php }
+				} else{
+					echo 'Add new products to cart';
+				}
+			?>
+		</div>
+		<div class="top-cart-action">
+			<?php 
+				if (!empty($_SESSION['cart'])) {
+					$total_price = 0;
+					foreach ($_SESSION['cart'] as $index => $cart_item) {
+						$total_price += $cart_item['quantity'] * $cart_item['price'] ;
+					}
+				} else{
+					$total_price = 0;
+				}
+			?>
+			<span class="top-checkout-price">
+				$<?php echo number_format($total_price, 0, '.', ',');?>	
+			</span>
+
 										<a href="../user_views/cart.php" class="button button-3d button-small m-0">View Cart</a>
 									</div>
 								</div>

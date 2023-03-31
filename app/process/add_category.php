@@ -1,7 +1,7 @@
 <?php 
     require_once('../../app/classes/category.php');
 
-    if(isset($_POST['category_name'])){
+    if(isset($_POST['category_name']) && $_POST['category_name']){
         $category_name = $_POST['category_name'];
 
         $category = new Category();
@@ -10,5 +10,10 @@
             header('Location: ../views/admin/category.php');
             exit;
         }
+    } else{
+        echo '<script>
+            alert("Category is require");
+            window.location.replace("../views/admin/category.php");
+            </script>';
     }
 ?>

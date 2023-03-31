@@ -9,7 +9,10 @@
             header('Location: ../views/admin/product.php');
             exit;
         }else{
-            echo 'Delete failed';  
+            echo '<script>
+            alert("It\'s possible that your product is in an order, so you can\'t delete it now. If you want to remove this product, please delete the invoices that contain this product");
+            window.location.replace("../views/admin/product.php");
+            </script>';
         }
     }
 ?>
