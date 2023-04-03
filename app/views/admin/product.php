@@ -60,8 +60,8 @@ if(empty($_SESSION['user'])){
                                                         <th scope="row"><?php echo ++$index; ?></th>
                                                         <td><?php echo $product['product_name'];?></td>
                                                         <td>
-                                                            <span class="text-nowrap">Import price: <p class="text-dark"><?php echo $product['product_import_price'];?></p></span> 
-                                                            <span class="text-nowrap">Price: <p class="text-primary"><?php echo $product['product_price'];?></p></span>   
+                                                            <span class="text-nowrap">Import price: <p class="text-dark"><?php echo number_format($product['product_import_price']).'  đ';?></p></span> 
+                                                            <span class="text-nowrap">Price: <p class="text-primary"><?php echo number_format($product['product_price']).'  đ';?></p></span>   
                                                         </td>
                                                         <td><?php echo $product['product_quantity'];?></td>
                                                         <td>

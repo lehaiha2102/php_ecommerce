@@ -19,7 +19,7 @@ if(!empty($_SESSION['user'])){
 </head>
 
 <body>
-
+    if
     <h2>Sign in/up Form</h2>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
@@ -40,6 +40,9 @@ if(!empty($_SESSION['user'])){
                 <input type="password" name="password" id="passwordregister" placeholder="Password" />
                 <span style="color:red;" id="passwordregisterError"></span>
 
+                <input type="password" name="repassword" id="repasswordregister" placeholder="Re-Password" />
+                <span style="color:red;" id="repasswordregisterError"></span>
+
                 <button type="submit" name="signup">Sign Up</button>
             </form>
         </div>
@@ -52,7 +55,7 @@ if(!empty($_SESSION['user'])){
                 <input type="password" name="password" id="password" placeholder="Password" required minlength="8" />
                 <span style="color:red;" id="passwordError"></span>
 
-                <a href="#">Forgot your password?</a>
+                <a href="../../views/auth/forgot_password.php">Forgot your password?</a>
                 <button type="submit" name="login" value="login">Sign In</button>
             </form>
         </div>
@@ -85,6 +88,8 @@ if(!empty($_SESSION['user'])){
         const addressError = document.querySelector('#addressError');
         const passwordregister = document.querySelector('#passwordregister');
         const passwordregisterError = document.querySelector('#passwordregisterError');
+        const repasswordregister = document.querySelector('#repasswordregister');
+        const repasswordregisterError = document.querySelector('#repasswordregisterError');
 
         fullname.textContent = '';
         fullnameError.textContent = '';
@@ -96,6 +101,8 @@ if(!empty($_SESSION['user'])){
         addressError.textContent = '';
         passwordregister.textContent = '';
         passwordregisterError.textContent = '';
+        repasswordregister.textContent = '';
+        repasswordregisterError.textContent = '';
 
         formRegister.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -116,6 +123,13 @@ if(!empty($_SESSION['user'])){
             emailregister.focus();
             return false;
         }
+
+        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(emailregister.value)) {
+        emailregisterError.textContent = 'Please enter a valid email address';
+        emailError.focus();
+        return false;
+}
+
         
         if(phone.value == ''){
             phoneError.textContent = 'Your phone is required';
@@ -144,6 +158,12 @@ if(!empty($_SESSION['user'])){
             return false;
 
         }
+
+        if(repasswordregister.value != passwordregister.value){
+            repasswordregisterError.textContent = 'Password does not match password above';
+            repasswordregister.forcus();
+            return false;
+        }
         this.submit();
     })
     </script>
@@ -169,6 +189,12 @@ if(!empty($_SESSION['user'])){
             email.focus();
             return false;
         }
+        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email.value)) {
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.focus();
+                return false;
+            }
+
 
         if (password.value === '') {
             passwordError.textContent = 'Password is required';

@@ -38,11 +38,11 @@ class Category{
         }
     }
     
-    public function addCategory($category_name){
+    public function addCategory($category_name, $category_slug){
         global $connection;
-        $sql_categorry = 'INSERT INTO categories(category_name) VALUES(?)';
+        $sql_categorry = 'INSERT INTO categories(category_name, category_slug) VALUES(?, ?)';
         $stmt_category = $connection->prepare($sql_categorry);
-        $stmt_category->bind_param('s', $category_name);
+        $stmt_category->bind_param('ss', $category_name, $category_slug);
         if($stmt_category->execute()){
             return 'add category success';
         } else{
@@ -50,11 +50,11 @@ class Category{
         }
     }
 
-    public function deleteCategory($category_id){
+    public function deleteCategory($category_slug){
         global $connection;
-        $sql_delete_category = 'DELETE FROM categories WHERE category_id = ?';
+        $sql_delete_category = 'DELETE FROM categories WHERE category_slug = ?';
         $stmt_delete_category = $connection->prepare($sql_delete_category);
-        $stmt_delete_category->bind_param('i', $category_id);
+        $stmt_delete_category->bind_param('s', $category_slug);
         if($stmt_delete_category->execute()){
             return 'Delete category success';
         } else{
@@ -62,11 +62,11 @@ class Category{
         }
     }
 
-    public function updateCategory($category_id, $category_name){
+    public function updateCategory($category_slug, $category_name){
         global $connection;
-        $sql_update_category = 'UPDATE categories SET category_name = ? WHERE category_id = ?';
+        $sql_update_category = 'UPDATE categories SET category_name = ? WHERE category_slug = ?';
         $stmt_update_category = $connection->prepare($sql_update_category);
-        $stmt_update_category->bind_param('si', $category_name, $category_id);
+        $stmt_update_category->bind_param('ss', $category_name, $category_slug);
         if($stmt_update_category->execute()){
             return 'Upload success';
         } else{

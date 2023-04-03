@@ -13,14 +13,6 @@
         $product_image_3 = $_FILES["product_image_3"]["name"];
         $target_dir = "../../public/image/";
         $target_file1 = $target_dir . basename($product_image_1);
-        echo  $product_name;
-        echo  $product_import_price;
-        echo  $product_price;
-        echo  $product_promotion_price;
-        echo  $product_quantity;
-        echo  $product_image_1;
-        echo  $product_image_2;
-        echo  $product_image_3;
     
         if (move_uploaded_file($_FILES["product_image_1"]["tmp_name"], $target_file1)) {
         } else {

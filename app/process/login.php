@@ -3,9 +3,7 @@
     require_once('../classes/user.php');
     // if(isset($_POST['login'])){
         $email = $_POST['email'];
-        echo $email. '<br>';
         $password = $_POST['password'];
-        echo $password. '<br>';
 
         $user = new User();
         $result = $user->login($email, $password);

@@ -2,9 +2,9 @@
     require_once('../../app/classes/category.php');
 
     if(isset($_POST['category_delete'])){
-        $category_id = $_POST['category_id'];
+        $category_slug = $_POST['category_slug'];
         $category = new Category();
-        $result = $category->deleteCategory( $category_id );
+        $result = $category->deleteCategory( $category_slug );
         if($result == 'Delete category success'){
             header('Location: ../views/admin/category.php');
             exit;

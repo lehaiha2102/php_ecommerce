@@ -35,10 +35,13 @@
             if($stmt_register->execute()){
                 header('Location: ../views/auth/index.php');
             } else{
-                echo '<script>
-            alert("There was an error during the account registration process, please try again.");
-            window.location.replace("../views/auth/index.php");
-            </script>';
+            //     echo '<script>
+            // alert("There was an error during the account registration process, please try again.");
+            // window.location.replace("../views/auth/index.php");
+            // </script>';
+            if (!$stmt_register->execute()) {
+                printf("Error: %s.\n", $stmt_register->error);
+             }
             }
         }
     }

@@ -292,10 +292,10 @@ require_once('../../process/show_category.php');
 								<div class="col-xl-7 col-lg-5 mb-0 sticky-sidebar-wrap">
 
 									<div class="masonry-thumbs grid-container grid-2" data-lightbox="gallery">
-										<a class="grid-item" href="../../../public/image/<?php echo $product['product_image_1'];?>" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_1'];?>" alt="Watch 1"></a>
-										<a class="grid-item" href="../../../public/image/<?php echo $product['product_image_2'];?>" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_2'];?>" alt="Watch 3"></a>
-										<a class="grid-item" href="../../../public/image/<?php echo $product['product_image_3'];?>" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_3'];?>" alt="Watch 2"></a>
-										<a class="grid-item" href="../../../public/image/<?php echo $product['product_image_1'];?>" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_1'];?>" alt="Watch 4"></a>
+										<a class="grid-item" href="" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_1'];?>" alt="Watch 1"></a>
+										<a class="grid-item" href="" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_2'];?>" alt="Watch 3"></a>
+										<a class="grid-item" href="" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_3'];?>" alt="Watch 2"></a>
+										<a class="grid-item" href="" data-lightbox="gallery-item"><img src="../../../public/image/<?php echo $product['product_image_1'];?>" alt="Watch 4"></a>
 									</div>
 
 								</div>
@@ -310,7 +310,7 @@ require_once('../../process/show_category.php');
 										============================================= -->
                                         
                                         <?php if(!empty($product['product_promotion_price'])){?>
-										<div class="product-price"><del>$39.99</del> <ins>$24.99</ins><span class="text-warning"> (30% OFF)</span></div><!-- Product Single - Price End -->
+										<div class="product-price"><del><?php echo number_format($product['product_price']).' đ';?></del> <ins><?php echo number_format($product['product_promotion_price']).' đ';?></ins><span class="text-warning"> (30% OFF)</span></div><!-- Product Single - Price End -->
                                         <?php } else{?>
                                             <div class="product-price"><ins><?php echo number_format($product['product_price']).' đ';?></ins></div>
                                         <?php }?>

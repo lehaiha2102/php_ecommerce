@@ -54,14 +54,14 @@ if(empty($_SESSION['user'])){
                                                     foreach($categories as $index => $category){?>
                                                     <tr>
                                                         <th scope="row"><?php echo ++$index; ?></th>
-                                                        <td id="category_name<?php echo $category['category_id'] . '-' . $index; ?>"><?php echo $category['category_name']; ?></td>
+                                                        <td id="category_name<?php echo $category['category_slug'] . '-' . $index; ?>"><?php echo $category['category_name']; ?></td>
 
                                                         <td>
-                                                            <button type="button" class="btn mr-2 mb-2 btn-warning" data-toggle="modal" data-target="#exampleModalUpdate<?php echo $category['category_id']?>">
+                                                            <button type="button" class="btn mr-2 mb-2 btn-warning" data-toggle="modal" data-target="#exampleModalUpdate<?php echo $category['category_slug']?>">
                                                                 <i class="pe-7s-pen"> </i>
                                                             </button>
 
-                                                            <button type="button" class="btn mr-2 mb-2 btn-danger" data-toggle="modal" data-target="#exampleModal<?php echo $category['category_id']?>">
+                                                            <button type="button" class="btn mr-2 mb-2 btn-danger" data-toggle="modal" data-target="#exampleModal<?php echo $category['category_slug']?>">
                                                                 <i class="pe-7s-trash"> </i>
                                                             </button>
                                                         </td>
@@ -120,7 +120,7 @@ if(empty($_SESSION['user'])){
 
     <!-- delete modal -->
     <?php foreach($categories as $category){?>
-    <div class="modal fade" id="exampleModal<?php echo $category['category_id']?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal<?php echo $category['category_slug']?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -137,7 +137,7 @@ if(empty($_SESSION['user'])){
                 </h6>
                     <form action="../../process/delete_category.php" method="POST">
                         <div class="position-relative form-group">
-                            <input name="category_id" id="exampleEmail" value="<?php echo $category['category_id']?>" placeholder="Enter category name" type="hidden" class="form-control">
+                            <input name="category_slug" id="exampleEmail" value="<?php echo $category['category_slug']?>" placeholder="Enter category name" type="hidden" class="form-control">
                         </div>
                         
                         <button name="category_delete" type="submit" class="mt-1 btn btn-danger">Delete</button>
@@ -151,7 +151,7 @@ if(empty($_SESSION['user'])){
 
      <!-- Update modal -->
      <?php foreach($categories as $category){?>
-    <div class="modal fade" id="exampleModalUpdate<?php echo $category['category_id']?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModalUpdate<?php echo $category['category_slug']?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -167,7 +167,7 @@ if(empty($_SESSION['user'])){
                 </h6>
                     <form id="update-form" action="../../process/update_category.php" method="POST">
                         <div class="position-relative form-group">
-                            <input name="category_id" id="exampleEmail" value="<?php echo $category['category_id']?>" placeholder="Enter category name" type="hidden" class="form-control">
+                            <input name="category_slug" id="exampleEmail" value="<?php echo $category['category_slug']?>" placeholder="Enter category name" type="hidden" class="form-control">
                             <input name="category_name" value="<?php echo $category['category_name']?>" placeholder="Enter category name" type="text" class="form-control">
                         </div>
                         
@@ -193,7 +193,7 @@ if(empty($_SESSION['user'])){
                 success: function(data) {
                         if (data == 'success') { 
                             $(this).closest('tr').find('td:eq(1)').text(categoryName);
-                            $('#exampleModalUpdate<?php echo $category['category_id']?>').modal('hide');
+                            $('#exampleModalUpdate<?php echo $category['category_slug']?>').modal('hide');
                         } else {
                             alert(data); // Hiển thị thông báo lỗi
                         }

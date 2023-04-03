@@ -28,5 +28,29 @@
 	<!-- Document Title
 	============================================= -->
 	<title>Shop Demo | Canvas</title>
+	<style>
+		.dropdown-menu {
+    background-color: #fff;
+    border: none;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.175);
+    padding: 0.5rem 0;
+    min-width: 200px;
+}
 
+.dropdown-menu a {
+    color: #212529;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+}
+
+.dropdown-menu a:hover, .dropdown-menu a:focus {
+    background-color: #f7f7f7;
+    color: #212529;
+}
+
+	</style>
 </head>

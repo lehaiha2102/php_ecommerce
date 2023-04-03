@@ -49,7 +49,7 @@
                 <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-users"></i>
-                        Accounts
+                        Customers
                     </a>
                 </li>
                 <li>
