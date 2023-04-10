@@ -9,13 +9,11 @@ if (empty($_SESSION['user'])) {
 
 require_once('../../process/show_category.php');
 require_once('../../process/show_product.php');
+require_once('../../process/showfavourite.php');
+require_once('../../process/showorderwid.php');
 
 $sql = "SELECT * FROM users";
 $result = $connection->query($sql);
-
-
-
-
 $user_profile = array();
 $email = $_SESSION['user']['email'];
 
@@ -143,28 +141,28 @@ if ($result->num_rows > 0) {
                                                     break;
                                                 }
                                                 ?>
-                                                                <div class="top-cart-item">
-                                                                    <div class="top-cart-item-image">
-                                                                        <a href="#"><img
-                                                                                src="../../../public/image/<?php echo $cart_item['image'] ?>"
-                                                                                alt="<?php echo $cart_item['name'] ?>" /></a>
-                                                                    </div>
-                                                                    <div class="top-cart-item-desc">
-                                                                        <div class="top-cart-item-desc-title">
-                                                                            <a href="#">
-                                                                                <?php echo $cart_item['name'] ?>
-                                                                            </a>
-                                                                            <span class="top-cart-item-price d-block">
-                                                                                $
-                                                                                <?php echo number_format($cart_item['price'], 0, '.', ','); ?>
-                                                                            </span>
+                                                                        <div class="top-cart-item">
+                                                                            <div class="top-cart-item-image">
+                                                                                <a href="#"><img
+                                                                                        src="../../../public/image/<?php echo $cart_item['image'] ?>"
+                                                                                        alt="<?php echo $cart_item['name'] ?>" /></a>
+                                                                            </div>
+                                                                            <div class="top-cart-item-desc">
+                                                                                <div class="top-cart-item-desc-title">
+                                                                                    <a href="#">
+                                                                                        <?php echo $cart_item['name'] ?>
+                                                                                    </a>
+                                                                                    <span class="top-cart-item-price d-block">
+                                                                                        $
+                                                                                        <?php echo number_format($cart_item['price'], 0, '.', ','); ?>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div class="top-cart-item-quantity">x
+                                                                                    <?php echo $cart_item['quantity'] ?>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="top-cart-item-quantity">x
-                                                                            <?php echo $cart_item['quantity'] ?>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                    <?php }
+                                                        <?php }
                                         } else {
                                             echo 'Add new products to cart';
                                         }
@@ -219,12 +217,12 @@ if ($result->num_rows > 0) {
 
                             <ul class="menu-container">
                                 <?php foreach ($categories as $category) { ?>
-                                            <li class="menu-item current"><a class="menu-link"
-                                                    href="../../views/user_views/product.php?category_id=<?php echo $category['category_id'] ?>">
-                                                    <div>
-                                                        <?php echo $category['category_name'] ?>
-                                                    </div>
-                                                </a></li>
+                                                <li class="menu-item current"><a class="menu-link"
+                                                        href="../../views/user_views/product.php?category_id=<?php echo $category['category_id'] ?>">
+                                                        <div>
+                                                            <?php echo $category['category_name'] ?>
+                                                        </div>
+                                                    </a></li>
                                 <?php } ?>
                             </ul>
 
@@ -264,7 +262,7 @@ if ($result->num_rows > 0) {
                                                             <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-hidden="true"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="../../process/change_bio.php?user_id=<?php echo $user_profile['user_id']?>" method="post">
+                                                            <form action="../../process/change_bio.php?user_id=<?php echo $user_profile['user_id'] ?>" method="post">
                                                                         <div class="form-process">
                                                                             <div class="css3-spinner">
                                                                                 <div class="css3-spinner-scaler"></div>
@@ -280,7 +278,7 @@ if ($result->num_rows > 0) {
                                                     </div>
                                                 </div>
                                             </div>
-                            </div>
+                                        </div>
 
                             <div class="clear"></div>
 
@@ -292,18 +290,18 @@ if ($result->num_rows > 0) {
 
                                         <ul class="tab-nav clearfix">
                                             <li><a href="#tab-feeds"><i class="icon-user-check"></i> Abouts</a></li>
-                                            <li><a href="#tab-posts"><i class="icon-shopping-cart1"></i> Oders</a></li>
+                                            <li><a href="#tab-posts"><i class="icon-shopping-cart1"></i> Orders</a></li>
                                             <li><a href="#tab-replies"><i class="icon-heart"></i> Favourites</a></li>
-                                            <li><a href="#tab-connections"><i class="icon-line-align-justify"></i> Activity log</a></li>
+                                            <!-- <li><a href="#tab-connections"><i class="icon-line-align-justify"></i> Activity log</a></li> -->
                                         </ul>
 
                                         <div class="tab-container">
 
                                             <div class="tab-content clearfix" id="tab-feeds">
 
-                                            <p>Phone: <?php echo $user_profile['phone']?>
+                                            <p>Phone: <?php echo $user_profile['phone'] ?>
 
-                                            <p>Email: <?php echo$user_profile['email']  ?>
+                                            <p>Email: <?php echo $user_profile['email'] ?>
 
                                             <p>Address: <?php echo !empty($user_profile['address']) ? $user_profile['address'] : 'Update Now'; ?> 
                                             <button class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg1"><i class="icon-pencil-alt"></i></button></p>
@@ -316,7 +314,7 @@ if ($result->num_rows > 0) {
                                                             <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-hidden="true"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="../../process/change_address.php?user_id=<?php echo $user_profile['user_id']?>" method="post">
+                                                            <form action="../../process/change_address.php?user_id=<?php echo $user_profile['user_id'] ?>" method="post">
                                                                         <div class="form-process">
                                                                             <div class="css3-spinner">
                                                                                 <div class="css3-spinner-scaler"></div>
@@ -343,7 +341,7 @@ if ($result->num_rows > 0) {
                                                             <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-hidden="true"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                        <form action="../../process/change_date_of_birth.php?user_id=<?php echo $user_profile['user_id']?>" method="post">
+                                                        <form action="../../process/change_date_of_birth.php?user_id=<?php echo $user_profile['user_id'] ?>" method="post">
                                                                         <div class="form-process">
                                                                             <div class="css3-spinner">
                                                                                 <div class="css3-spinner-scaler"></div>
@@ -359,11 +357,41 @@ if ($result->num_rows > 0) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                            <p>Confidentiality <a class="btn btn-warning" href="../../views/user_views/confidentiality.php">View</a> </p>
-
-
-                                             
+                                            <p>Password: ********
+                                            <button class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg3"><i class="icon-pencil-alt"></i></button></p>
+                                            <div class="modal fade bs-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel">Change password</h4>
+                                                           
+                                                            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="../../process/change_password.php?user_id=<?php echo $user_profile['user_id'] ?>" method="post">
+                                                                        <div class="form-process">
+                                                                            <div class="css3-spinner">
+                                                                                <div class="css3-spinner-scaler"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12 form-group">
+                                                                            <label>Old password:</label>
+                                                                            <input type="text" name="oldpas" id="event-registration-email" class="form-control required valid" value="" placeholder="Enter your password">
+                                                                        </div>
+                                                                        <div class="col-12 form-group">
+                                                                            <label>New password:</label>
+                                                                            <input type="text" name="password" id="event-registration-password" class="form-control required valid" value="" placeholder="Enter your password">
+                                                                        </div>
+                                                                        <div class="col-12 form-group">
+                                                                            <label>Re-password:</label>
+                                                                            <input type="text" name="repassword" id="event-registration-password" class="form-control required valid" value="" placeholder="Enter your password">
+                                                                        </div>
+                                                                        <button class="btn btn-warning" type="submit">Change</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             </div>
                                             <div class="tab-content clearfix" id="tab-posts">
 
@@ -373,115 +401,103 @@ if ($result->num_rows > 0) {
 
                                                     <div class="entry col-12">
                                                         <div class="grid-inner row align-items-center g-0">
-                                                        <table class="table table-bordered table-striped">
-                                                  <thead>
-                                                    <tr>
-                                                      <th>Time</th>
-                                                      <th>Activity</th>
-                                                    </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                    <tr>
-                                                      <td>
-                                                        <code>5/23/2021</code>
-                                                      </td>
-                                                      <td>Payment for VPS2 completed</td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td>
-                                                        <code>5/23/2021</code>
-                                                      </td>
-                                                      <td>Logged in to the Account at 16:33:01</td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td>
-                                                        <code>5/22/2021</code>
-                                                      </td>
-                                                      <td>Logged in to the Account at 09:41:58</td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td>
-                                                        <code>5/21/2021</code>
-                                                      </td>
-                                                      <td>Logged in to the Account at 17:16:32</td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td>
-                                                        <code>5/18/2021</code>
-                                                      </td>
-                                                      <td>Logged in to the Account at 22:53:41</td>
-                                                    </tr>
-                                                  </tbody>
-                                                </table>
+                                                            <table class="table table-bordered table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                    <th>Time</th>
+                                                                    <th>Order ID</th>
+                                                                    <th>Status</th>
+                                                                    <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php 
+                                                                    foreach($ordersid as $item){
+                                                                        ?>
+                                                                        <tr>
+                                                                    <td>
+                                                                        <code><?php echo $item['create_at'] ?></code>
+                                                                    </td>
+                                                                    <td><?php echo $item['order_id'] ?></td>
 
-                                                        </div>
-                                                    </div>
+                                                                    <td><?php if($item['order_status'] == 1){
+                                                                        echo 'Unconfimred';
+                                                                    } else if($item['order_status'] == 2){
+                                                                        echo 'Confirmed';
+                                                                    }  else if($item['order_status'] == 3){
+                                                                        echo 'Shipped';
+                                                                    } else if($item['order_status'] == 4){
+                                                                        echo 'Delivered';
+                                                                    } else if($item['order_status'] == 5){
+                                                                        echo 'Cancelled';
+                                                                    }   ?></td>
+                                                                    <td>
+                                                                        <a href="../../views/user_views/order_detail.php?order_id=<?php echo $item['order_id'] ?>" class="btn btn-success"><i class="icon-info-circle"></i></a>
+                                                                        <?php if($item['order_status'] == 1){?>
+                                                                            <a href="../../process/cancel_order.php?order_id=<?php echo $item['order_id'] ?>" class="btn btn-danger"><i class="icon-line-circle-cross1"></i></a>
+                                                                        <?php }?>
+                                                                    </td>
+                                                                        </tr>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                    
+                                                                </tbody>
+                                                            </table>
 
-                                                    <div class="entry col-12">
-                                                           <div class="grid-inner row align-items-center g-0">
-                                                            <div class="col-md-4">
-                                                                <div class="entry-image">
-                                                                    <iframe src="https://player.vimeo.com/video/87701971" width="500" height="281" allow="autoplay; fullscreen" allowfullscreen></iframe>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-8 ps-md-4">
-                                                                <div class="entry-title title-sm">
-                                                                    <h3><a href="blog-single-full.html">This is a Standard post with an Embedded Video</a></h2>
-                                                                </div>
-                                                                <div class="entry-meta">
-                                                                    <ul>
-                                                                        <li><i class="icon-calendar3"></i> 16th Feb 2021</li>
-                                                                        <li><a href="blog-single-full.html#comments"><i class="icon-comments"></i> 19</a></li>
-                                                                        <li><a href="#"><i class="icon-film"></i></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="entry-content">
-                                                                    <p>Asperiores, tenetur, blanditiis, quaerat odit ex exercitationem.</p>
-                                                                    <a href="blog-single-full.html" class="more-link">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="entry col-12">
-                                                        <div class="grid-inner row align-items-center g-0">
-                                                            <div class="col-md-4">
-                                                                <div class="entry-image">
-                                                                    <div class="fslider" data-arrows="false" data-lightbox="gallery">
-                                                                        <div class="flexslider">
-                                                                            <div class="slider-wrap">
-                                                                                <div class="slide"><a href="images/blog/full/10.jpg" data-lightbox="gallery-item"><img src="images/blog/small/10.jpg" alt="Standard Post with Gallery"></a></div>
-                                                                                <div class="slide"><a href="images/blog/full/20.jpg" data-lightbox="gallery-item"><img src="images/blog/small/20.jpg" alt="Standard Post with Gallery"></a></div>
-                                                                                <div class="slide"><a href="images/blog/full/21.jpg" data-lightbox="gallery-item"><img src="images/blog/small/21.jpg" alt="Standard Post with Gallery"></a></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-8 ps-md-4">
-                                                                <div class="entry-title title-sm">
-                                                                    <h3><a href="blog-single-small.html">This is a Standard post with a Slider Gallery</a></h3>
-                                                                </div>
-                                                                <div class="entry-meta">
-                                                                    <ul>
-                                                                        <li><i class="icon-calendar3"></i> 24th Feb 2021</li>
-                                                                        <li><a href="blog-single-small.html#comments"><i class="icon-comments"></i> 21</a></li>
-                                                                        <li><a href="#"><i class="icon-picture"></i></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="entry-content">
-                                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                                                    <a href="blog-single-small.html" class="more-link">Read More</a>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div class="tab-content clearfix" id="tab-replies">
+                                            <div class="row gutter-40 posts-md mt-4">
 
-                                                <div class="clear topmargin-sm"></div>
+                                            <div class="entry col-12">
+                                                <div class="grid-inner row align-items-center g-0">
+                                                    <table class="table table-bordered table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                            <th></th>
+                                                            <th>Product name</th>
+                                                            <th>Price</th>
+                                                            <th>Action</th>
+                                                            
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php 
+                                                             foreach($products as $product){
+                                                            foreach($favourites as $favourite){
+                                                               
+                                                                    if($favourite['product_id'] === $product['product_id']){
+                                                                ?>
+                                                            <tr>
+                                                            <td class="text-center">
+                                                                <a href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img width="225" height="125" src="../../../public/image/<?php echo $product['product_image_1'] ?>" alt=""></a>
+                                                                
+                                                                
+                                                            </td>
+                                                            <td>
+                                                                <a href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><?php echo $product['product_name'] ?></a>
+                                                            </td>
+                                                            <td><?php echo $product['product_price'] ?></td>
+                                                            <td>
+                                                            <a href="../../views/user_views/checkout_from_single.php?product_id=<?php echo $product['product_id'];?>" class="btn btn-success"><i class="icon-shopping-cart1"></i></a>
+                                                                <a href="../../process/delete_favourite.php?product_id=<?php echo $product['product_id'] ?>" class="btn btn-warning"><i class="icon-trash-alt"></i></a>
+                                                            </td>
+                                                            </tr>
+                                                            <?php }}} ?>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                              
+                                            </div>
+                                            <div class="tab-content clearfix" id="tab-connections">
+
+                                            <div class="clear topmargin-sm"></div>
                                                 <ol class="commentlist border-0 m-0 p-0 clearfix">
                                                     <li class="comment even thread-even depth-1" id="li-comment-1">
                                                         <div id="comment-1" class="comment-wrap clearfix">
@@ -542,111 +558,6 @@ if ($result->num_rows > 0) {
                                                     </li>
 
                                                 </ol>
-
-                                            </div>
-                                            <div class="tab-content clearfix" id="tab-connections">
-
-                                                <div class="row topmargin-sm">
-                                                    <div class="col-lg-3 col-md-6 bottommargin">
-
-                                                        <div class="team">
-                                                            <div class="team-image">
-                                                                <img src="images/team/3.jpg" alt="John Doe">
-                                                            </div>
-                                                            <div class="team-desc">
-                                                                <div class="team-title"><h4>John Doe</h4><span>CEO</span></div>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-facebook">
-                                                                    <i class="icon-facebook"></i>
-                                                                    <i class="icon-facebook"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-twitter">
-                                                                    <i class="icon-twitter"></i>
-                                                                    <i class="icon-twitter"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-gplus">
-                                                                    <i class="icon-gplus"></i>
-                                                                    <i class="icon-gplus"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="col-lg-3 col-md-6 bottommargin">
-
-                                                        <div class="team">
-                                                            <div class="team-image">
-                                                                <img src="images/team/2.jpg" alt="Josh Clark">
-                                                            </div>
-                                                            <div class="team-desc">
-                                                                <div class="team-title"><h4>Josh Clark</h4><span>Co-Founder</span></div>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-facebook">
-                                                                    <i class="icon-facebook"></i>
-                                                                    <i class="icon-facebook"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-twitter">
-                                                                    <i class="icon-twitter"></i>
-                                                                    <i class="icon-twitter"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-gplus">
-                                                                    <i class="icon-gplus"></i>
-                                                                    <i class="icon-gplus"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="col-lg-3 col-md-6 bottommargin">
-
-                                                        <div class="team">
-                                                            <div class="team-image">
-                                                                <img src="images/team/8.jpg" alt="Mary Jane">
-                                                            </div>
-                                                            <div class="team-desc">
-                                                                <div class="team-title"><h4>Mary Jane</h4><span>Sales</span></div>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-facebook">
-                                                                    <i class="icon-facebook"></i>
-                                                                    <i class="icon-facebook"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-twitter">
-                                                                    <i class="icon-twitter"></i>
-                                                                    <i class="icon-twitter"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-gplus">
-                                                                    <i class="icon-gplus"></i>
-                                                                    <i class="icon-gplus"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="col-lg-3 col-md-6">
-
-                                                        <div class="team">
-                                                            <div class="team-image">
-                                                                <img src="images/team/4.jpg" alt="Nix Maxwell">
-                                                            </div>
-                                                            <div class="team-desc">
-                                                                <div class="team-title"><h4>Nix Maxwell</h4><span>Support</span></div>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-facebook">
-                                                                    <i class="icon-facebook"></i>
-                                                                    <i class="icon-facebook"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-twitter">
-                                                                    <i class="icon-twitter"></i>
-                                                                    <i class="icon-twitter"></i>
-                                                                </a>
-                                                                <a href="#" class="social-icon inline-block si-small si-light si-rounded si-gplus">
-                                                                    <i class="icon-gplus"></i>
-                                                                    <i class="icon-gplus"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
 
                                             </div>
 

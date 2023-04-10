@@ -164,10 +164,6 @@ class User{
             } else if($_SESSION['user']['role_id'] == 4){
                 return 'user';
             }
-        } else{
-            $errors[] = 'Email or password is incorect';
-            header('Location: ../views/auth/index.php');
-            exit;
         }
     }
     

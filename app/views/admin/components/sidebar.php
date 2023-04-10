@@ -58,12 +58,12 @@
                         Orders
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#">
                         <i class="metismenu-icon pe-7s-gift"></i>
                         Promotions
                     </a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>

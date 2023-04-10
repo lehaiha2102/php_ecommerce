@@ -1,10 +1,10 @@
 <?php 
 session_start();
 if(!empty($_SESSION['user'])){
-    if($_SESSION['user']['role_id'] == 1){
+    if($_SESSION['user']['role_id'] == 3){
         header('Location: ../../views/admin/index.php');
         exit;
-    } else if($_SESSION['user']['role_id'] == 2){
+    } else if($_SESSION['user']['role_id'] == 4){
         header('Location: ../../views/user_views/index.php');
         exit;
     }
@@ -16,6 +16,9 @@ if(!empty($_SESSION['user'])){
 <head>
     <title>PHP Course</title>
     <link rel="stylesheet" href="../../../public/auth/style.css">
+
+
+
 </head>
 
 <body>
@@ -74,8 +77,22 @@ if(!empty($_SESSION['user'])){
             </div>
         </div>
     </div>
+    
+    <div id="error-message"></div>
     <script src="../../../public/auth/script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
     <script>
         const formRegister = document.querySelector('#register');
         const fullname = document.querySelector('#fullname');
@@ -205,6 +222,20 @@ if(!empty($_SESSION['user'])){
         this.submit();
     })
     </script>
+
+<script>
+$(document).ready(function() {
+  var error = "<?php echo isset($_SESSION['error']) ? $_SESSION['error'] : '' ?>";
+  
+  // Nếu có giá trị error thì hiển thị lên màn hình
+  if (error) {
+    alertify.alert(error);
+  }
+});
+<?php unset($_SESSION['error'])?>
+</script>
+
+
 </body>
 
 </html>

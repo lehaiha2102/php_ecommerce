@@ -17,7 +17,7 @@
             $stmt = $connection->prepare($sql);
             $stmt->bind_param('si', $password, $user_id);
             if($stmt->execute()){
-                header('Location: ../views/user_views/confidentiality.php');
+                header('Location: ../views/user_views/profile.php');
                 exit;
             } else{
                 echo 'error';

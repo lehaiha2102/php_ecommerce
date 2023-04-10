@@ -19,20 +19,37 @@ if(empty($_SESSION['user'])){
         die('Connect error'.$connection->connect_error);
     }
 
-    if (isset($_GET['category_id'])) {
-        $category_id = $_GET['category_id'];
-        $sql = 'SELECT * FROM categories WHERE category_id = ?';
-        $stmt = $connection->prepare($sql);
-        $stmt->bind_param('i', $category_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $categories_wid = array();
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $categories_wid[] = $row;
-            }
-        }
-        $stmt->close();
+    if (isset($_GET['category_slug'])) {
+		echo $_GET['category_slug'];
+		if($_GET['category_slug'] == 'bestseller'){
+			$sql_seller = "SELECT product_id, SUM(product_quantity) AS total_quantity 
+									FROM order_detail 
+									WHERE create_at >= DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+									GROUP BY product_id 
+									ORDER BY total_quantity DESC 
+									LIMIT 6";
+									$result_seller = $connection->query($sql_seller);
+									$categories_wid = array();
+									if ($result_seller->num_rows > 0) {
+										while ($seller = $result_seller->fetch_assoc()) {
+											$categories_wid[] = $seller;
+										}
+									}
+		} else{
+			$category_slug = $_GET['category_slug'];
+			$sql = 'SELECT * FROM categories WHERE category_slug = ?';
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('s', $category_slug);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$categories_wid = array();
+			if ($result->num_rows > 0) {
+				while ($row = $result->fetch_assoc()) {
+					$categories_wid[] = $row;
+				}
+			}
+		}
+
     }
     
 
@@ -225,7 +242,10 @@ require_once('../../views/user_views/components/head.php'); ?>
 				<div class="container clearfix">
 					<!-- New Arrivals Men
 				============================================= -->
-					<?php foreach ($categories_wid as $category) { ?>
+					<?php 
+					 foreach ($categories_wid as $category) {
+						 ?>
+					
 						<div class="container clearfix">
 
 							<div class="fancy-title title-border topmargin-sm mb-4 title-center">

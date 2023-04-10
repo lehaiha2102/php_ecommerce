@@ -34,12 +34,26 @@ if(empty($_SESSION['user'])){
                                             Add category
                             </button>
                         </div>
+                        <div class="col-md-3">
+                        <div class="dropdown">
+                                <button class="dropbtn btn">Filter with category</button>
+                                <div class="dropdown-content">
+                                <button id="sort-category-az" type="button" tabindex="0"
+                                        class="dropdown-item">A-Z</button>
+                                    <button type="button" tabindex="0" class="dropdown-item"
+                                        id="sort-category-za">Z-A</button>
+
+                                    <button type="button" tabindex="0" class="dropdown-item"
+                                        id="sort-category-default">Default</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 card">
                         <div class="card-body">
                             <h5 class="card-title">Categories list</h5>
-                                        <table class="mb-0 table">
+                                        <table class="mb-0 table" id="category-table">
                                             <thead>
                                             <tr>
                                                 <th>#</th>
@@ -178,35 +192,69 @@ if(empty($_SESSION['user'])){
         </div>
     </div>
     <?php } ?>
-    <!-- end update modal -->
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $('#update-form').submit(function(e) {
-            e.preventDefault();
-            var categoryName = $('#update-form input[name="category_name"]').val(); 
-            $.ajax({
-                url: '../../process/update_category.php',
-                type: 'POST',
-                data: $('#update-form').serialize(),
-                success: function(data) {
-                        if (data == 'success') { 
-                            $(this).closest('tr').find('td:eq(1)').text(categoryName);
-                            $('#exampleModalUpdate<?php echo $category['category_slug']?>').modal('hide');
-                        } else {
-                            alert(data); // Hiển thị thông báo lỗi
-                        }
+    // Get the dropdown button
+    var dropdownBtn = document.querySelector(".dropbtn");
 
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr.responseText); // Hiển thị thông báo lỗi trong console
-                }
-            });
-        });
+    // Add an event listener to the button
+    dropdownBtn.addEventListener("click", function () {
+        // Toggle the dropdown content
+        var dropdownContent = this.nextElementSibling;
+        dropdownContent.classList.toggle("show");
     });
-    </script> -->
 
+    // Close the dropdown if the user clicks outside of it
+    window.addEventListener("click", function (event) {
+        if (!event.target.matches(".dropbtn")) {
+            var dropdowns = document.querySelectorAll(".dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var dropdown = dropdowns[i];
+                if (dropdown.classList.contains("show")) {
+                    dropdown.classList.remove("show");
+                }
+            }
+        }
+    });
+
+</script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+const categoryTable = document.getElementById('category-table');
+const sortCategoryAZBtn = document.getElementById('sort-category-az');
+const sortCategoryZABtn = document.getElementById('sort-category-za');
+const sortCategoryDefaultBtn = document.getElementById('sort-category-default');
+
+let currentSortOrder = 'default';
+
+function sortCategoryAZ() {
+  const rows = Array.from(categoryTable.querySelectorAll('tbody tr'));
+  rows.sort((a, b) => a.querySelector('td:nth-child(2)').innerText.localeCompare(b.querySelector('td:nth-child(2)').innerText));
+  categoryTable.tBodies[0].append(...rows);
+  currentSortOrder = 'az';
+}
+
+function sortCategoryZA() {
+  const rows = Array.from(categoryTable.querySelectorAll('tbody tr'));
+  rows.sort((a, b) => b.querySelector('td:nth-child(2)').innerText.localeCompare(a.querySelector('td:nth-child(2)').innerText));
+  categoryTable.tBodies[0].append(...rows);
+  currentSortOrder = 'za';
+}
+
+function sortCategoryDefault() {
+  const rows = Array.from(categoryTable.querySelectorAll('tbody tr'));
+  rows.sort((a, b) => a.querySelector('td:first-child').innerText - b.querySelector('td:first-child').innerText);
+  categoryTable.tBodies[0].append(...rows);
+  currentSortOrder = 'default';
+}
+
+sortCategoryAZBtn.addEventListener('click', sortCategoryAZ);
+sortCategoryZABtn.addEventListener('click', sortCategoryZA);
+sortCategoryDefaultBtn.addEventListener('click', sortCategoryDefault);
+
+</script>
 
 </body>
 

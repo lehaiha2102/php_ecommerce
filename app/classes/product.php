@@ -10,10 +10,14 @@ class Product{
     private $product_image_1;
     private $product_image_2;
     private $product_image_3;
+    private $product_image_4;
+    private $product_supplier;
+    private $product_specifications;
+    private $product_slug;
     private $product_description;
     private $category_id;
 
-    public function __construct($product_id = null, $product_name = null, $product_price = null, $product_import_price = null, $product_promotion_price = null, $product_image_1 = null, $product_image_2 = null, $product_image_3 = null, $product_quantity = null, $product_description = null, $category_id = null){
+    public function __construct($product_id = null, $product_name = null,$product_slug = null, $product_supplier = null,  $product_specifications = null, $product_price = null, $product_import_price = null, $product_promotion_price = null, $product_image_1 = null, $product_image_2 = null, $product_image_3 = null, $product_image_4 = null, $product_quantity = null, $product_description = null, $category_id = null){
         $this->product_id = $product_id;
         $this->product_name = $product_name;
         $this->product_price = $product_price;
@@ -22,9 +26,13 @@ class Product{
         $this->product_image_1 = $product_image_1;
         $this->product_image_2 = $product_image_2;
         $this->product_image_3 = $product_image_3;
+        $this->product_image_4 = $product_image_4;
         $this->product_price = $product_price;
         $this->product_quantity = $product_quantity;
         $this->product_description = $product_description;
+        $this->product_supplier = $product_supplier;
+        $this->product_specifications = $product_specifications;
+        $this->product_slug = $product_slug;
         $this->category_id = $category_id;
     }
 
@@ -100,11 +108,11 @@ class Product{
         $this->category_id = $category_id;
     }
     
-    public function addProduct($product_name, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_description, $category_id){
+    public function addProduct($product_name, $product_supplier, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_image_4, $product_description, $product_specifications, $category_id, $product_slug){
         global $connection;
-        $sql_product = 'INSERT INTO products(product_name, product_import_price, product_price, product_promotion_price, product_quantity, product_image_1, product_image_2, product_image_3, product_description, category_id) VALUES(?,?,?,?,?,?,?,?,?,?)';
+        $sql_product = 'INSERT INTO products(product_name, product_supplier, product_import_price, product_price, product_promotion_price, product_quantity, product_image_1, product_image_2, product_image_3, product_image_4,product_description,product_specifications,category_id,product_slug) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $stmt_product = $connection->prepare($sql_product);
-        $stmt_product->bind_param('siiiissssi', $product_name, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_description, $category_id);
+        $stmt_product->bind_param('ssiiiissssssis', $product_name, $product_supplier, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_image_4, $product_description, $product_specifications, $category_id, $product_slug);
         if($stmt_product->execute()){
             return 'add product success';
         } else{
@@ -124,11 +132,11 @@ class Product{
         }
     }
 
-    public function updateProduct($product_id, $product_name, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_description, $category_id){
+    public function updateProduct($product_slug, $product_name, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_description, $product_specifications, $category_id){
         global $connection;
-        $sql_update_product = 'UPDATE products SET product_name = ?, product_import_price = ?, product_price = ?, product_promotion_price = ?, product_quantity = ?, product_image_1 = ?, product_image_2 = ?, product_image_3 = ?, product_description = ?, category_id = ? WHERE product_id = ?';
+        $sql_update_product = 'UPDATE products SET product_name = ?, product_import_price = ?, product_price = ?, product_promotion_price = ?, product_quantity = ?, product_image_1 = ?, product_image_2 = ?, product_image_3 = ?, product_description = ?,product_specifications=?, category_id = ? WHERE product_slug = ?';
         $stmt_update_product = $connection->prepare($sql_update_product);
-        $stmt_update_product->bind_param('siiiissssii', $product_name, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_description, $category_id, $product_id);
+        $stmt_update_product->bind_param('siiiisssssis', $product_name, $product_import_price, $product_price, $product_promotion_price, $product_quantity, $product_image_1, $product_image_2, $product_image_3, $product_description, $product_specifications, $category_id, $product_slug);
         if($stmt_update_product->execute()){
             return 'Upload success';
         } else{

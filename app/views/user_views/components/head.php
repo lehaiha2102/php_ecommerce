@@ -22,8 +22,9 @@
 
 	<link rel="stylesheet" href="../../../public/user_public/css/custom.css" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
 	<link rel="stylesheet" href="../../../public/user_public/css/colors.php?color=000000" type="text/css" />
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 	<!-- Document Title
 	============================================= -->
@@ -51,6 +52,8 @@
     background-color: #f7f7f7;
     color: #212529;
 }
-
+.dropdown-toggle::after {
+   display: none;
+}
 	</style>
 </head>

@@ -7,8 +7,10 @@ if (empty($_SESSION['user'])) {
 	header('Location: ../../views/auth/index.php');
 	exit;
 }
+$_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 require_once('../../process/show_category.php');
 require_once('../../process/show_product.php');
+require_once('../../process/showfavourite.php');
 require_once('../../views/user_views/components/head.php'); ?>
 
 
@@ -41,25 +43,62 @@ require_once('../../views/user_views/components/head.php'); ?>
 							============================================= -->
 							<div id="top-account" class="position-relative">
 								<div class="dropdown">
-									<a class="dropdown-toggle ms-2 d-none d-sm-inline-block" href="#"
-										role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-										aria-expanded="false">
+									<a class="dropdown-toggle ms-2 d-none d-sm-inline-block" href="#" role="button"
+										id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
 										<i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i>
-								<span class="d-none d-sm-inline-block font-primary fw-medium">
-									<?php echo $_SESSION['user']['name'] ?>
-								</span>
+										<span class="d-none d-sm-inline-block font-primary fw-medium">
+											<?php echo $_SESSION['user']['name'] ?>
+										</span>
 									</a>
 									<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-										<li><a class="dropdown-item" href="../../views/user_views/profile.php">Profile</a>
+										<li><a class="dropdown-item"
+												href="../../views/user_views/profile.php">Profile</a>
 										</li>
-										<li><div class="dropdown-divider"></div></li>
+										<li>
+											<div class="dropdown-divider"></div>
+										</li>
 										<li><a class="dropdown-item" href="../../process/logout.php">Logout</a>
 										</li>
 									</ul>
 								</div>
 							</div>
 
-							<!-- #top-search end -->
+							<div id="favourite" class="position-relative">
+								<a href="../../views/user_views/profile.php#tab-replies"><i class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
+							</div>
+
+							<div class="header-misc-icon">
+								<a href="#" id="notifylink" data-bs-toggle="dropdown" data-bs-offset="0,15"
+									aria-haspopup="true" aria-expanded="false" data-offset="12,12" class=""><i
+										class="icon-line-bell notification-badge"></i></a>
+								<div class="dropdown-menu dropdown-menu-end py-0 m-0 overflow-auto"
+									aria-labelledby="notifylink" style="width: 320px; max-height: 300px;">
+									<span
+										class="dropdown-header border-bottom border-f5 fw-medium text-uppercase ls1">Notifications</span>
+									<div class="list-group list-group-flush">
+										<a href="#" class="d-flex list-group-item">
+											<img src="demos/articles/images/authors/2.jpg" width="35" height="35"
+												class="rounded-circle me-3 mt-1" alt="Profile">
+											<div class="media-body">
+												<h5 class="my-0 fw-normal text-muted"><span
+														class="text-dark fw-bold">SemiColonWeb</span> has replied on
+													your post <span class="text-dark fw-bold">Package Generator – Approx
+														time for a file.</span></h5>
+												<small class="text-smaller">10 mins ago</small>
+											</div>
+										</a>
+										<a href="#" class="d-flex list-group-item">
+											<i class="icon-line-check badge-icon bg-success text-white me-3 mt-1"></i>
+											<div class="media-body">
+												<h5 class="my-0 fw-normal text-muted"><span
+														class="text-dark fw-bold">SemiColonWeb</span> has marked to your
+													post as solved.</h5>
+												<small class="text-smaller">2 days ago</small>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
 
 							<!-- Top Cart
 							============================================= -->
@@ -183,9 +222,10 @@ require_once('../../views/user_views/components/head.php'); ?>
 						<nav class="primary-menu with-arrows me-lg-auto">
 
 							<ul class="menu-container">
-								<?php foreach ($categories as $category) { ?>
+								<?php foreach ($categories as $category) {
+									 ?>
 									<li class="menu-item current"><a class="menu-link"
-											href="../../views/user_views/product.php?category_id=<?php echo $category['category_id'] ?>">
+											href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
 											<div>
 												<?php echo $category['category_name'] ?>
 											</div>
@@ -214,22 +254,38 @@ require_once('../../views/user_views/components/head.php'); ?>
 		============================================= -->
 		<section id="content">
 			<div class="content-wrap">
-				<div class="container clearfix">
+
+			<div class="container clearfix">
 					<!-- New Arrivals Men
 				============================================= -->
-					<?php foreach ($categories as $category) { ?>
+					
 						<div class="container clearfix">
-
+						
 							<div class="fancy-title title-border topmargin-sm mb-4 title-center">
 								<h4>
-									<?php echo $category['category_name'] ?>
+									Best seller
 								</h4>
 							</div>
 
 							<div class="row grid-6">
 								<?php
-								foreach ($products as $product) {
-									if ($product['category_id'] == $category['category_id']) { ?>
+									$sql_seller = "SELECT product_id, SUM(product_quantity) AS total_quantity 
+									FROM order_detail 
+									WHERE create_at >= DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+									GROUP BY product_id 
+									ORDER BY total_quantity DESC 
+									LIMIT 6";
+									$result_seller = $connection->query($sql_seller);
+									$sellers = array();
+									if ($result_seller->num_rows > 0) {
+										while ($seller = $result_seller->fetch_assoc()) {
+											$sellers[] = $seller;
+										}
+									}
+						
+									foreach ($products as $product) {
+										foreach($sellers as $seller){
+										if ($product['product_id'] == $seller['product_id']) { ?>
 										<div class="col-lg-2 col-md-3 col-6 px-2">
 											<div class="product">
 												<div class="product-image">
@@ -250,6 +306,9 @@ require_once('../../views/user_views/components/head.php'); ?>
 															<a onclick="AddCart(<?php echo $product['product_id']; ?>)"
 																href="javascript:" class="btn btn-dark me-2"><i
 																	class="icon-shopping-basket"></i></a>
+															<a onclick="AddFavourite(<?php echo $product['product_id']; ?>)"
+																href="javascript:" class="btn btn-dark"><i
+																	class="icon-line-heart"></i></a>
 														</div>
 														<div class="bg-overlay-bg bg-transparent"></div>
 													</div>
@@ -257,7 +316,102 @@ require_once('../../views/user_views/components/head.php'); ?>
 												<div class="product-desc">
 													<div class="product-title mb-1">
 														<h3><a
-																href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>">
+																href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>">
+																<?php echo $product['product_name']; ?>
+															</a></h3>
+													</div>
+													<?php if (!empty($product['product_promotion_price'])) { ?>
+														<div class="product-price font-primary">
+															<del class="me-1">
+
+																
+																<?php echo number_format($product['product_price'], 0, '.', ',').' đ'.'('.$seller['total_quantity'].')'; ?>
+															</del>
+															<ins>
+																
+																<?php echo number_format($product['product_promotion_price'], 0, '.', ',').' đ'.'('.$seller['total_quantity'].')'; ?>
+															</ins>
+														</div>
+													<?php } else { ?>
+														<div class="product-price font-primary">
+
+															<ins>
+																
+																<?php echo number_format($product['product_price'], 0, '.', ',').' đ'.'('.$seller['total_quantity'].')'; ?>
+															</ins>
+														</div>
+													<?php } ?>
+												</div>
+											</div>
+										</div>
+
+									<?php }}
+								} ?>
+							</div>
+
+						</div>
+						<div style="display: flex; justify-content: center; margin-top: 20px;">
+							<a
+								href="../../views/user_views/product.php?category_slug=bestseller">Show
+								more</a>
+						</div>
+
+
+
+					<div class="clear"></div>
+					<!-- Last Section
+				============================================= -->
+
+				</div>
+
+				<div class="container clearfix">
+					<!-- New Arrivals Men
+				============================================= -->
+					
+						<div class="container clearfix">
+						<?php foreach ($categories as $category) { 
+							if($category['category_slug'] == 'laptop-04-03-8393'){?>
+							<div class="fancy-title title-border topmargin-sm mb-4 title-center">
+								<h4>
+									<?php echo $category['category_name'] ?>
+								</h4>
+							</div>
+
+							<div class="row grid-6">
+								<?php
+								foreach ($products as $product) {
+									if ($product['category_id'] == 16) { ?>
+										<div class="col-lg-2 col-md-3 col-6 px-2">
+											<div class="product">
+												<div class="product-image">
+													<a
+														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															src="../../../public/image/<?php echo $product['product_image_1'] ?>"
+															alt="Image 1"></a>
+													<a
+														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															src="../../../public/image/<?php echo $product['product_image_2'] ?>"
+															alt="Image 1"></a>
+													<?php if (!empty($product['product_promotion_price'])) { ?>
+														<div class="sale-flash badge bg-danger p-2">Sale!</div>
+													<?php } ?>
+													<div class="bg-overlay">
+														<div class="bg-overlay-content align-items-end justify-content-between"
+															data-hover-animate="fadeIn" data-hover-speed="400">
+															<a onclick="AddCart(<?php echo $product['product_id']; ?>)"
+																href="javascript:" class="btn btn-dark me-2"><i
+																	class="icon-shopping-basket"></i></a>
+															<a onclick="AddFavourite(<?php echo $product['product_id']; ?>)"
+																href="javascript:" class="btn btn-dark"><i
+																	class="icon-line-heart"></i></a>
+														</div>
+														<div class="bg-overlay-bg bg-transparent"></div>
+													</div>
+												</div>
+												<div class="product-desc">
+													<div class="product-title mb-1">
+														<h3><a
+																href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>">
 																<?php echo $product['product_name'] ?>
 															</a></h3>
 													</div>
@@ -265,20 +419,20 @@ require_once('../../views/user_views/components/head.php'); ?>
 														<div class="product-price font-primary">
 															<del class="me-1">
 
-																$
-																<?php echo number_format($product['product_price'], 0, '.', ','); ?>
+																
+																<?php echo number_format($product['product_price'], 0, '.', ',').' đ'; ?>
 															</del>
 															<ins>
-																$
-																<?php echo number_format($product['product_promotion_price'], 0, '.', ','); ?>
+																
+																<?php echo number_format($product['product_promotion_price'], 0, '.', ',').' đ'; ?>
 															</ins>
 														</div>
 													<?php } else { ?>
 														<div class="product-price font-primary">
 
 															<ins>
-																$
-																<?php echo number_format($product['product_price'], 0, '.', ','); ?>
+																
+																<?php echo number_format($product['product_price'], 0, '.', ',').' đ'; ?>
 															</ins>
 														</div>
 													<?php } ?>
@@ -292,10 +446,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 
 						</div>
 						<div style="display: flex; justify-content: center; margin-top: 20px;">
-							<a href="../../views/user_views/product.php?category_id=<?php echo $category['category_id'] ?>">Show
+							<a
+								href="../../views/user_views/product.php?category_slug=laptop-04-03-8393">Show
 								more</a>
 						</div>
-					<?php } ?>
+					<?php } }?>
 
 
 
@@ -304,6 +459,202 @@ require_once('../../views/user_views/components/head.php'); ?>
 				============================================= -->
 
 				</div>
+
+				<div class="container clearfix">
+					<!-- New Arrivals Men
+				============================================= -->
+					
+						<div class="container clearfix">
+						<?php foreach ($categories as $category) { 
+							if($category['category_slug'] == 'smart-phone-04-03-6291'){?>
+							<div class="fancy-title title-border topmargin-sm mb-4 title-center">
+								<h4>
+									<?php echo $category['category_name'] ?>
+								</h4>
+							</div>
+
+							<div class="row grid-6">
+								<?php
+								foreach ($products as $product) {
+									if ($product['category_id'] == 17) { ?>
+										<div class="col-lg-2 col-md-3 col-6 px-2">
+											<div class="product">
+												<div class="product-image">
+													<a
+														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															src="../../../public/image/<?php echo $product['product_image_1'] ?>"
+															alt="Image 1"></a>
+													<a
+														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															src="../../../public/image/<?php echo $product['product_image_2'] ?>"
+															alt="Image 1"></a>
+													<?php if (!empty($product['product_promotion_price'])) { ?>
+														<div class="sale-flash badge bg-danger p-2">Sale!</div>
+													<?php } ?>
+													<div class="bg-overlay">
+														<div class="bg-overlay-content align-items-end justify-content-between"
+															data-hover-animate="fadeIn" data-hover-speed="400">
+															<a onclick="AddCart(<?php echo $product['product_id']; ?>)"
+																href="javascript:" class="btn btn-dark me-2"><i
+																	class="icon-shopping-basket"></i></a>
+															<a onclick="AddFavourite(<?php echo $product['product_id']; ?>)"
+																href="javascript:" class="btn btn-dark"><i
+																	class="icon-line-heart"></i></a>
+														</div>
+														<div class="bg-overlay-bg bg-transparent"></div>
+													</div>
+												</div>
+												<div class="product-desc">
+													<div class="product-title mb-1">
+														<h3><a
+																href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>">
+																<?php echo $product['product_name'] ?>
+															</a></h3>
+													</div>
+													<?php if (!empty($product['product_promotion_price'])) { ?>
+														<div class="product-price font-primary">
+															<del class="me-1">
+
+																$
+																<?php echo number_format($product['product_price'], 0, '.', ','); ?>
+															</del>
+															<ins>
+																
+																<?php echo number_format($product['product_promotion_price'], 0, '.', ',').' đ'; ?>
+															</ins>
+														</div>
+													<?php } else { ?>
+														<div class="product-price font-primary">
+
+															<ins>
+																
+																<?php echo number_format($product['product_price'], 0, '.', ',').' đ'; ?>
+															</ins>
+														</div>
+													<?php } ?>
+												</div>
+											</div>
+										</div>
+
+									<?php }
+								} ?>
+							</div>
+
+						</div>
+						<div style="display: flex; justify-content: center; margin-top: 20px;">
+							<a
+								href="../../views/user_views/product.php?category_slug=smart-phone-04-03-6291">Show
+								more</a>
+						</div>
+					<?php } }?>
+
+
+
+					<div class="clear"></div>
+					<!-- Last Section
+				============================================= -->
+
+				</div>
+
+
+
+				<div class="container clearfix">
+					<!-- New Arrivals Men
+				============================================= -->
+					
+						<div class="container clearfix">
+						<?php foreach ($categories as $category) { 
+							if($category['category_slug'] == 'laptop-04-04-7607'){?>
+							<div class="fancy-title title-border topmargin-sm mb-4 title-center">
+								<h4>
+									<?php echo $category['category_name'] ?>
+								</h4>
+							</div>
+
+							<div class="row grid-6">
+								<?php
+								foreach ($products as $product) {
+									if ($product['category_id'] == 18) { ?>
+										<div class="col-lg-2 col-md-3 col-6 px-2">
+											<div class="product">
+												<div class="product-image">
+													<a
+														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															src="../../../public/image/<?php echo $product['product_image_1'] ?>"
+															alt="Image 1"></a>
+													<a
+														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															src="../../../public/image/<?php echo $product['product_image_2'] ?>"
+															alt="Image 1"></a>
+													<?php if (!empty($product['product_promotion_price'])) { ?>
+														<div class="sale-flash badge bg-danger p-2">Sale!</div>
+													<?php } ?>
+													<div class="bg-overlay">
+														<div class="bg-overlay-content align-items-end justify-content-between"
+															data-hover-animate="fadeIn" data-hover-speed="400">
+															<a onclick="AddCart(<?php echo $product['product_id']; ?>)"
+																href="javascript:" class="btn btn-dark me-2"><i
+																	class="icon-shopping-basket"></i></a>
+															<a onclick="AddFavourite(<?php echo $product['product_id']; ?>)"
+																href="javascript:" class="btn btn-dark"><i
+																	class="icon-line-heart"></i></a>
+														</div>
+														<div class="bg-overlay-bg bg-transparent"></div>
+													</div>
+												</div>
+												<div class="product-desc">
+													<div class="product-title mb-1">
+														<h3><a
+																href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>">
+																<?php echo $product['product_name'] ?>
+															</a></h3>
+													</div>
+													<?php if (!empty($product['product_promotion_price'])) { ?>
+														<div class="product-price font-primary">
+															<del class="me-1">
+
+																$
+																<?php echo number_format($product['product_price'], 0, '.', ','); ?>
+															</del>
+															<ins>
+																
+																<?php echo number_format($product['product_promotion_price'], 0, '.', ',').' đ'; ?>
+															</ins>
+														</div>
+													<?php } else { ?>
+														<div class="product-price font-primary">
+
+															<ins>
+																
+																<?php echo number_format($product['product_price'], 0, '.', ',').' đ'; ?>
+															</ins>
+														</div>
+													<?php } ?>
+												</div>
+											</div>
+										</div>
+
+									<?php }
+								} ?>
+							</div>
+
+						</div>
+						<div style="display: flex; justify-content: center; margin-top: 20px;">
+							<a
+								href="../../views/user_views/product.php?category_slug=laptop-04-04-7607">Show
+								more</a>
+						</div>
+					<?php } }?>
+
+
+
+					<div class="clear"></div>
+					<!-- Last Section
+				============================================= -->
+
+				</div>
+
+				
 		</section><!-- #content end -->
 
 		<!-- Footer
@@ -335,6 +686,21 @@ require_once('../../views/user_views/components/head.php'); ?>
 				alertify.success('Add products to cart successfully!');
 			})
 		}
+	</script>
+	<script>
+		function AddFavourite(product_id) {
+			$.ajax({
+				url: '../../process/add_favourite_product.php?product_id=' + product_id,
+				type: 'GET',
+			}).done(function (result) {
+				if (result.success) {
+					alertify.success(result.message);
+				} else {
+					alertify.error(result.message);
+				}
+			});
+		}
+
 	</script>
 
 </body>
