@@ -72,6 +72,7 @@ require('../../process/show_product.php');
                         <div class="col-md-12 card">
                             <div class="card-body">
                                 <h5 class="card-title">Orders Detail</h5>
+                                <input type="text" id="search-input" name="searchValue" placeholder="Type to search">
 
 
                                 <table class="mb-0 table">
@@ -152,7 +153,38 @@ require('../../process/show_product.php');
         </div>
     </div>
     <?php require_once('../../../app/views/admin/components/footer.php');
+
     ?>
+
+<script>
+    const searchInput = document.getElementById('search-input');
+    const tableBody = document.querySelector('.table tbody');
+    const rows = tableBody.querySelectorAll('tr');
+
+    searchInput.addEventListener('keyup', function(event) {
+        const searchTerm = event.target.value.toLowerCase();
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            let found = false;
+
+            cells.forEach(cell => {
+                const cellValue = cell.textContent.toLowerCase();
+
+                if (cellValue.includes(searchTerm)) {
+                    found = true;
+                }
+            });
+
+            if (found) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+
 </body>
 
 </html>

@@ -1,10 +1,63 @@
 <?php 
 session_start();
-if(empty($_SESSION['user']['email'])){
-
+if(empty($_SESSION['user']['email']) ){
 	header('Location: ../../views/auth/index.php');
 	exit;
 }
+if($_SESSION['user']['role_id'] != 3){
+    header('Location: ../../views/user_views/index.php');
+	exit;
+}
+
+$servername = 'localhost';
+    $username = 'root';
+    $password = '';
+    $database = 'php_ecommerce';
+
+    $connection = new mysqli($servername, $username, $password, $database);
+
+    if($connection->connect_error){
+        die('Connect error'.$connection->connect_error);
+    }
+
+$sql = "SELECT QUARTER(create_at) AS quarter, SUM(product_price * product_quantity) AS revenue
+        FROM order_detail
+        GROUP BY quarter";
+$result_revenue = $connection->query($sql);
+$revenue_total = array();
+if ($result_revenue->num_rows > 0) {
+    if ($revenue = $result_revenue->fetch_assoc()) {
+        $revenue_total = $revenue;
+    }
+}
+
+$sql_seller = "SELECT product_id, SUM(product_quantity) AS total_quantity 
+									FROM order_detail 
+									WHERE create_at >= DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+									GROUP BY product_id 
+									ORDER BY total_quantity DESC 
+									LIMIT 1";
+									$result_seller = $connection->query($sql_seller);
+                                    $best_seller = array();
+                                    if ($result_seller->num_rows > 0) {
+                                        if ($seller = $result_seller->fetch_assoc()) {
+                                            $best_seller = $seller;
+                                        }
+                                    }   
+$sql_favourite = "SELECT product_id, COUNT(*) AS num_favorites
+                    FROM favourite_product
+                    GROUP BY product_id
+                    ORDER BY num_favorites DESC
+                    LIMIT 1";
+$result_favourite = $connection->query($sql_favourite);
+$favourite = array();
+if ($result_favourite->num_rows > 0) {
+    if ($favourites = $result_favourite->fetch_assoc()) {
+        $favourite = $favourites;
+    }
+}   
+
+require('../../process/show_product.php');   
 
 ?>
 
@@ -36,11 +89,10 @@ if(empty($_SESSION['user']['email'])){
                             <div class="card mb-3 widget-content bg-midnight-bloom">
                                 <div class="widget-content-wrapper text-white">
                                     <div class="widget-content-left">
-                                        <div class="widget-heading">Total Orders</div>
-                                        <div class="widget-subheading">Last year expenses</div>
+                                        <div class="widget-heading">Total revenue by quarter</div>
                                     </div>
                                     <div class="widget-content-right">
-                                        <div class="widget-numbers text-white"><span>1896</span></div>
+                                        <div class="widget-numbers text-white text-nowrap"><span><?php echo number_format($revenue_total['revenue']/1000000, 2, '.', '').'M đ' ;?></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -49,11 +101,18 @@ if(empty($_SESSION['user']['email'])){
                             <div class="card mb-3 widget-content bg-arielle-smile">
                                 <div class="widget-content-wrapper text-white">
                                     <div class="widget-content-left">
-                                        <div class="widget-heading">Clients</div>
-                                        <div class="widget-subheading">Total Clients Profit</div>
+                                        <div class="widget-heading">Best-selling products</div>
                                     </div>
                                     <div class="widget-content-right">
-                                        <div class="widget-numbers text-white"><span>$ 568</span></div>
+                                        <div class="widget-numbers text-white"><span>
+
+                                            <?php foreach($products as $product){
+                                                if($product['product_id'] == $best_seller['product_id']){
+                                                    echo $product['product_name']."(Sold:".$best_seller['total_quantity'] . ")";
+                                                }
+                                                }?>
+
+                                        </span></div>
                                     </div>
                                 </div>
                             </div>
@@ -62,11 +121,14 @@ if(empty($_SESSION['user']['email'])){
                             <div class="card mb-3 widget-content bg-grow-early">
                                 <div class="widget-content-wrapper text-white">
                                     <div class="widget-content-left">
-                                        <div class="widget-heading">Followers</div>
-                                        <div class="widget-subheading">People Interested</div>
+                                        <div class="widget-heading">Favourite product</div>
                                     </div>
                                     <div class="widget-content-right">
-                                        <div class="widget-numbers text-white"><span>46%</span></div>
+                                        <div class="widget-numbers text-white"><span><?php foreach($products as $product){
+                                                if($product['product_id'] == $favourite['product_id']){
+                                                    echo $product['product_name']."(Likes:".$favourite['num_favorites'] . ")";
+                                                }
+                                                }?></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -252,18 +314,9 @@ if(empty($_SESSION['user']['email'])){
                                 <div class="card-header-tab card-header">
                                     <div class="card-header-title">
                                         <i class="header-icon lnr-rocket icon-gradient bg-tempting-azure"> </i>
-                                        Bandwidth Reports
+                                        Sales schema
                                     </div>
-                                    <div class="btn-actions-pane-right">
-                                        <div class="nav">
-                                            <a href="javascript:void(0);"
-                                                class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate">Tab
-                                                1</a>
-                                            <a href="javascript:void(0);"
-                                                class="ml-1 btn-pill btn-wide border-0 btn-transition  btn btn-outline-alternate second-tab-toggle-alt">Tab
-                                                2</a>
-                                        </div>
-                                    </div>
+                                    <canvas id="myChart"></canvas>
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane fade active show" id="tab-eg-55">
@@ -722,6 +775,59 @@ if(empty($_SESSION['user']['email'])){
         </div>
     </div>
     <?php require_once('../../../app/views/admin/components/footer.php')?>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    // Sử dụng AJAX để truy vấn dữ liệu từ cơ sở dữ liệu
+    $.ajax({
+        url: '../../process/sales_schema.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+        // Xử lý dữ liệu để lấy ra thông tin doanh thu của từng quý trong năm
+        var quarters = [[], [], [], []];
+        for (var i = 0; i < data.length; i++) {
+            var month = new Date(data[i].create_at).getMonth();
+            var quarter = Math.floor(month / 3);
+            quarters[quarter].push(data[i].product_price * data[i].product_quantity);
+        }
+        
+        // Tạo biểu đồ cột doanh thu theo từng quý trong năm
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            datasets: [{
+                label: 'Revenue',
+                data: [
+                quarters[0].reduce((a, b) => a + b, 0),
+                quarters[1].reduce((a, b) => a + b, 0),
+                quarters[2].reduce((a, b) => a + b, 0),
+                quarters[3].reduce((a, b) => a + b, 0),
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+            },
+            options: {
+            scales: {
+                yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+                }]
+            }
+            }
+        });
+        console.log(chart)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+        }
+    });
+    </script>
 </body>
 
 </html>

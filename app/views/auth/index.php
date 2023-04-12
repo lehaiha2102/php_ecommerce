@@ -16,13 +16,9 @@ if(!empty($_SESSION['user'])){
 <head>
     <title>PHP Course</title>
     <link rel="stylesheet" href="../../../public/auth/style.css">
-
-
-
 </head>
 
 <body>
-    if
     <h2>Sign in/up Form</h2>
     <div class="container" id="container">
         <div class="form-container sign-up-container">

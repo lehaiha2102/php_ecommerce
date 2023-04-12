@@ -31,10 +31,11 @@ if (isset($_GET['payment']) == 'paypal') {
             if ($user['email'] == $_SESSION['user']['email']) {
                 $user_id = $user['user_id'];
                 $payment_method_id = 2;
+                $payment_status = 2;
                 $ship_address = $user['address'];
-                $sql_order = 'INSERT INTO orders(order_id, user_id, payment_method_id, ship_address) VALUES(?, ?, ?, ?)';
+                $sql_order = 'INSERT INTO orders(order_id, user_id, payment_method_id, payment_status, ship_address) VALUES(?,?, ?, ?, ?)';
                 $stmt_order = $connection->prepare($sql_order);
-                $stmt_order->bind_param('iiis',$order_id, $user_id, $payment_method_id, $ship_address);
+                $stmt_order->bind_param('iiiis',$order_id, $user_id, $payment_method_id, $payment_status, $ship_address);
                 if ($stmt_order->execute()) {
                     $sql_order_detail = 'INSERT INTO order_detail(order_id, product_id, product_price, product_quantity) VALUES (?, ?, ?, ?)';
                     $stmt_order_detail = $connection->prepare($sql_order_detail);
@@ -49,8 +50,8 @@ if (isset($_GET['payment']) == 'paypal') {
                         unset($_SESSION["cart"]);
                         unset($_SESSION['address']);
                     }
-                    echo '<h3>Payment success!!!</h3>';
-                    echo 'Click here to see order detail: <a href="">Click here</a>';
+                   header('Location: ../views/user_views/index.php?message="Success!!!"');
+                   exit;
                 } else {
                     echo "Error from paypal payment: " . $stmt_order->error;
                 }
@@ -79,10 +80,11 @@ if (isset($_GET['payment']) == 'paypal') {
                     if ($user['email'] == $_SESSION['user']['email']) {
                         $user_id = $user['user_id'];
                         $payment_method_id = 4;
+                        $payment_status = 2;
                         $ship_address = $user['address'];
-                        $sql_order = 'INSERT INTO orders(order_id, user_id, payment_method_id, ship_address) VALUES(?, ?, ?, ?)';
+                        $sql_order = 'INSERT INTO orders(order_id, user_id, payment_method_id, payment_status, ship_address) VALUES(?, ?, ?, ?, ?)';
                         $stmt_order = $connection->prepare($sql_order);
-                        $stmt_order->bind_param('iiis', $orderId, $user_id, $payment_method_id, $orderInfo);
+                        $stmt_order->bind_param('iiiis', $orderId, $user_id, $payment_method_id, $payment_status, $orderInfo);
                         if ($stmt_order->execute()) {
                             $sql_order_detail = 'INSERT INTO order_detail(order_id, product_id, product_price, product_quantity) VALUES (?, ?, ?, ?)';
                             $stmt_order_detail = $connection->prepare($sql_order_detail);
@@ -97,8 +99,8 @@ if (isset($_GET['payment']) == 'paypal') {
                                 unset($_SESSION["cart"]);
                                 unset($_SESSION['address']);
                             }
-                            echo '<h3>Payment success!!!</h3>';
-                            echo 'Click here to see order detail: <a href="">Click here</a>';
+                            header('Location: ../views/user_views/index.php?message="Success!!!"');
+                            exit;
                         } else {
                             echo "Error: " . $stmt_order->error;
                         }

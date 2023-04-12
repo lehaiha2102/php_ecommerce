@@ -307,13 +307,13 @@ require_once('../../views/user_views/components/head.php'); ?>
 
 											<!-- Product Single - Rating
 										============================================= -->
-											<div class="product-rating">
+											<!-- <div class="product-rating">
 												<i class="icon-star3"></i>
 												<i class="icon-star3"></i>
 												<i class="icon-star3"></i>
 												<i class="icon-star-half-full"></i>
 												<i class="icon-star-empty"></i>
-											</div><!-- Product Single - Rating End -->
+											</div>Product Single - Rating End -->
 
 										</div>
 

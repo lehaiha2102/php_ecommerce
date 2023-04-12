@@ -74,6 +74,7 @@ if ($result->num_rows > 0) {
                         <div class="col-md-12 card">
                             <div class="card-body">
                                 <h5 class="card-title">Products list</h5>
+                                <input type="text" id="search-input" name="searchValue" placeholder="Type to search">
                                 <table class="mb-0 table" id="product-table">
                                     <thead>
                                         <tr>
@@ -82,7 +83,7 @@ if ($result->num_rows > 0) {
                                             <th>Product image</th>
                                             <th>Product supplier</th>
                                             <th>Product category</th>
-                                            <th>Product status</th>
+                                            <!-- <th>Product status</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -115,7 +116,7 @@ if ($result->num_rows > 0) {
                                                     }
                                                     ?>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <div class="position-relative form-group">
                                                         <select id="<?php echo $product['product_id']; ?>"
                                                             name="<?php echo $product['product_status']; ?>"
@@ -131,7 +132,7 @@ if ($result->num_rows > 0) {
                                                             } ?>>Decommissioning</option>
                                                         </select>
                                                     </div>
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <a type="button" class="btn mr-2 mb-2 btn-success"
                                                         href="../../views/admin/productdetail.php?product_slug=<?php echo $product['product_slug'] ?>"><i
@@ -352,6 +353,34 @@ if ($result->num_rows > 0) {
             $.each(rows, function (index, row) {
                 $('#product-table tbody').append(row);
             });
+        });
+    });
+</script>
+<script>
+    const searchInput = document.getElementById('search-input');
+    const tableBody = document.querySelector('.table tbody');
+    const rows = tableBody.querySelectorAll('tr');
+
+    searchInput.addEventListener('keyup', function(event) {
+        const searchTerm = event.target.value.toLowerCase();
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            let found = false;
+
+            cells.forEach(cell => {
+                const cellValue = cell.textContent.toLowerCase();
+
+                if (cellValue.includes(searchTerm)) {
+                    found = true;
+                }
+            });
+
+            if (found) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
         });
     });
 </script>

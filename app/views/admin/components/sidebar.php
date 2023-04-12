@@ -35,6 +35,12 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboards</li>
                 <li>
+                    <a href="../../views/admin/index.php">
+                        <i class="metismenu-icon pe-7s-home"></i>
+                        Home
+                    </a>
+                </li>
+                <li>
                     <a href="../../views/admin/category.php">
                         <i class="metismenu-icon pe-7s-menu"></i>
                         Categories
@@ -47,7 +53,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="../../views/admin/customer.php">
                         <i class="metismenu-icon pe-7s-users"></i>
                         Customers
                     </a>

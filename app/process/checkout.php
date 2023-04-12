@@ -38,7 +38,7 @@ session_start();
                 unset($_SESSION["cart"]);
                 unset($_SESSION['order_id']);
                 unset($_SESSION['address']);
-                header('Location: ../views/user_views/index.php');
+                header('Location: ../views/user_views/index.php?message="Success!!!"');
                 exit;
             } else {
                 echo "Error: " . $stmt_order->error;

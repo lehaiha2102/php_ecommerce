@@ -140,11 +140,11 @@ if (empty($_SESSION['user'])) {
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                            <div class="col-md-6">
+                                           
                                                 <div class="position-relative form-group"><label for="exampleText" class="">Product specifications</label>
                                                 <textarea name="product_specifications" id="exampleText"
                                                 class="form-control"></textarea></div>
-                                            </div>
+                                           
                                             </div>
                                         </div>
                                         <button class="mt-1 btn btn-primary" name="product_add" type="submit">Submit</button>

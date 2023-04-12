@@ -1,8 +1,8 @@
-<?php 
+<?php
 session_start();
-if(empty($_SESSION['user'])){
-	header('Location: ../../views/auth/index.php');
-	exit;
+if (empty($_SESSION['user'])) {
+    header('Location: ../../views/auth/index.php');
+    exit;
 }
 ?>
 <!doctype html>
@@ -33,15 +33,19 @@ if(empty($_SESSION['user'])){
                         <div class="col-md-12 card">
                             <div class="card-body">
                                 <h5 class="card-title">Orders list</h5>
+                                <input type="text" id="search-input" name="searchValue" placeholder="Type to search">
                                 <table class="mb-0 table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>ID</th>
                                             <th>User</th>
                                             <th>Total price</th>
                                             <th>Payment method</th>
+                                            <th>Payment status</th>
                                             <th>Status</th>
                                             <th>Address</th>
+                                            <th>Phone</th>
                                             <th>Time</th>
                                             <th>Detail</th>
                                         </tr>
@@ -57,6 +61,9 @@ if(empty($_SESSION['user'])){
                                                 <th scope="row">
                                                     <?php echo ++$index; ?>
                                                 </th>
+                                                <td>
+                                                    <?php echo $order['order_id']; ?>
+                                                </td>
                                                 <?php foreach ($users as $user) {
                                                     if ($user['user_id'] == $order['user_id']) {
                                                         ?>
@@ -88,6 +95,15 @@ if(empty($_SESSION['user'])){
                                                     ?>
                                                 <?php } ?>
                                                 <td>
+                                                    <?php
+                                                    if ($order['payment_status'] == 1) {
+                                                        echo 'Unpaid';
+                                                    } else {
+                                                        echo 'Paid';
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td>
                                                     <div class="position-relative form-group">
                                                         <select id="<?php echo $order['order_id']; ?>"
                                                             name="<?php echo $order['order_status']; ?>"
@@ -115,10 +131,14 @@ if(empty($_SESSION['user'])){
                                                     <?php echo $order['ship_address']; ?>
                                                 </td>
                                                 <td>
+                                                    <?php echo $order['recipient_phone']; ?>
+                                                </td>
+                                                <td>
                                                     <?php echo $order['create_at']; ?>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-success" href="../../views/admin/order_detail.php?order_id=<?php echo $order['order_id']; ?>">Detail</a>
+                                                    <a class="btn btn-success"
+                                                        href="../../views/admin/order_detail.php?order_id=<?php echo $order['order_id']; ?>">Detail</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -147,92 +167,33 @@ if(empty($_SESSION['user'])){
             </div>
         </div>
     </div>
-    <?php require_once('../../../app/views/admin/components/footer.php');
-    require('../../process/show_product.php'); ?>
+    <?php require_once('../../../app/views/admin/components/footer.php'); ?>
 
-    <!-- detail_modal -->
-    <?php
-    require('../../process/show_order_detail.php');
-    foreach ($orders as $index => $order) { ?>
-        <div class="modal fade bd-example-modal-lg" id="exampleModalUpdate<?php echo $index; ?>" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <h5 class="card-title">Orders Detail</h5>
-                    <table class="mb-0 table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Order ID</th>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            foreach ($order_detail as $key => $detail) { ?>
-
-                                <tr>
-                                    <th scope="row">
-                                        <?php echo ++$key; ?>
-                                    </th>
-                                    <td>
-                                        <?php echo $detail['order_id']; ?>
-                                    </td>
-
-                                    <?php foreach ($products as $product) {
-                                        if ($product['product_id'] == $detail['product_id']) {
-                                            ?>
-                                            <td>
-                                                <?php echo $product['product_name']; ?>
-                                            </td>
-                                            <?php
-                                        }
-                                        ?>
-                                    <?php } ?>
-                                    <td>
-                                        <?php echo $detail['product_price']; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $detail['product_quantity']; ?>
-                                    </td>
-                                    <td>
-                                        <?php $total_price = 0;
-                                        foreach ($orders as $order) {
-                                            if ($order['order_id'] == $detail['order_id']) {
-                                                $total_price = $detail['product_quantity'] * $detail['product_price'];
-                                            }
-                                        }
-                                        ?>
-                                        <?php echo $total_price; ?>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-    <?php } ?>
-    <!-- end modal -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <a href="../../process/show_order_detail.php">click here</a>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
     <script>
         $(document).ready(function () {
-        $('.post-order-id').click(function(){
-        var order_id = $(this).val();
-        console.log(order_id);
-        $('#order_id_hidden').val(order_id);
-        $.ajax({
-            url : '../../process/show_order_detail.php',
-            type : 'GET',
-            data : {order_id : order_id} 
+            $('.post-order-id').click(function () {
+                var order_id = $(this).val();
+                console.log(order_id);
+                $('#order_id_hidden').val(order_id);
+                $.ajax({
+                    url: '../../process/show_order_detail.php',
+                    type: 'GET',
+                    data: { order_id: order_id }
+                })
+            })
         })
-        })
-    })
     </script>
     <script>
         $(document).ready(function () {
@@ -248,7 +209,7 @@ if(empty($_SESSION['user'])){
                     success: function (response) {
                         var select = $('#' + order_id);
                         select.val(order_status);
-                        console.log(response)
+                        alertify.success('Update success!');
                     },
                     error: function () {
                         alert('Error !')
@@ -258,6 +219,34 @@ if(empty($_SESSION['user'])){
         });
     </script>
 
+<script>
+    const searchInput = document.getElementById('search-input');
+    const tableBody = document.querySelector('.table tbody');
+    const rows = tableBody.querySelectorAll('tr');
+
+    searchInput.addEventListener('keyup', function(event) {
+        const searchTerm = event.target.value.toLowerCase();
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            let found = false;
+
+            cells.forEach(cell => {
+                const cellValue = cell.textContent.toLowerCase();
+
+                if (cellValue.includes(searchTerm)) {
+                    found = true;
+                }
+            });
+
+            if (found) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 </body>
 

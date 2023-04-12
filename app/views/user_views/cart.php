@@ -357,7 +357,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 
                             <div class="col-lg-6">
                                 <div class="row justify-content-between py-2 col-mb-30">
-                                    <div class="col-lg-auto ps-lg-0">
+                                    <!-- <div class="col-lg-auto ps-lg-0">
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <input type="text" value=""
@@ -368,7 +368,7 @@ require_once('../../views/user_views/components/head.php'); ?>
                                                 <a href="#" class="button button-3d button-black m-0">Apply Coupon</a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-auto pe-lg-0">
                                         <a href="../../views/user_views/checkout.php"
                                             class="button button-3d mt-2 mt-sm-0 me-0">Proceed to
