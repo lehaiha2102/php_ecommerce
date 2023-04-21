@@ -29,7 +29,8 @@ if (!empty(($_GET['email']))) {
             $phpmailer->addAddress($email); //Add a recipient
             $phpmailer->isHTML(true); //Set email format to HTML
             $phpmailer->Subject = 'Confirm email';
-            $phpmailer->Body = '<p>This is a token to confirm email:</p>' . $token;
+            $confirm_link = 'http://127.0.0.1:8080/php_ecommerce/app/process/check_email.php?email=' . $email . '&token=' . $token;
+            $phpmailer->Body = '<a href="' . $confirm_link . '"> Confirm email here</a>';
             // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
             $phpmailer->send();
             header('Location: ../views/auth/confirm_email.php?email='.$email.'');
