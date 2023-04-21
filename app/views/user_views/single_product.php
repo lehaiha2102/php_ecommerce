@@ -311,23 +311,48 @@ require_once('../../views/user_views/components/head.php'); ?>
 						<div class="product">
 							<div class="container-fluid">
 								<div class="row gutter-50">
-									<div class="col-xl-7 col-lg-5 mb-0 sticky-sidebar-wrap">
+									<div class="col-xl-6  col-lg-8 mb-0 sticky-sidebar-wrap">
 
-										<div class="fslider" data-pagi="false" data-arrows="false">
+										<div class="fslider nav-offset" data-pagi="false" data-slideshow="false">
 											<div class="flexslider">
-												<div class="slider-wrap">
-													<div class="slide"><img src="../../../public/image/<?php echo $product['product_image_1']; ?>"
-															alt="Slider 1"></div>
-													<div class="slide"><img src="../../../public/image/<?php echo $product['product_image_2']; ?>"
-															alt="Slider 2"></div>
-													<div class="slide"><img src="../../../public/image/<?php echo $product['product_image_3']; ?>"
-															alt="Slider 3"></div>
+
+												<div class="flex-viewport"
+													style="overflow: hidden; position: relative;">
+													<div class="slider-wrap"
+														style="width: 1000%; transition-duration: 0s; transform: translate3d(-1032px, 0px, 0px);">
+														<div class="slide clone" aria-hidden="true"
+															style="width: 516px; margin-right: 0px; float: left; display: block;">
+															<img src="../../../public/image/<?php echo $product['product_image_1'] ?>" alt="Slider 3"
+																draggable="false"></div>
+														<div class="slide"
+															style="width: 516px; margin-right: 0px; float: left; display: block;">
+															<img src="../../../public/image/<?php echo $product['product_image_2'] ?>" alt="Slider 1"
+																draggable="false"></div>
+														<div class="slide flex-active-slide"
+															style="width: 516px; margin-right: 0px; float: left; display: block;">
+															<img src="../../../public/image/<?php echo $product['product_image_3'] ?>" alt="Slider 2"
+																draggable="false"></div>
+														<div class="slide"
+															style="width: 516px; margin-right: 0px; float: left; display: block;">
+															<img src="../../../public/image/<?php echo $product['product_image_4'] ?>" alt="Slider 3"
+																draggable="false"></div>
+														<div class="slide clone"
+															style="width: 516px; margin-right: 0px; float: left; display: block;"
+															aria-hidden="true"><img src="../../../public/image/<?php echo $product['product_image_1'] ?>"
+																alt="Slider 1" draggable="false"></div>
+													</div>
 												</div>
+												<ul class="flex-direction-nav">
+													<li class="flex-nav-prev"><a class="flex-prev" href="#"><i
+																class="icon-angle-left"></i></a></li>
+													<li class="flex-nav-next"><a class="flex-next" href="#"><i
+																class="icon-angle-right"></i></a></li>
+												</ul>
 											</div>
 										</div>
 									</div>
 
-									<div class="col-xl-5 col-lg-7 mb-0">
+									<div class="col-xl-6 col-lg-8 mb-0">
 
 										<div class="d-flex align-items-center justify-content-between">
 											<div class="product-name" style=" display: block;">
@@ -356,18 +381,6 @@ require_once('../../views/user_views/components/head.php'); ?>
 														</ins></div>
 												<?php } ?>
 											</div>
-											<!-- Product Single - Price End -->
-
-											<!-- Product Single - Rating
-										============================================= -->
-											<!-- <div class="product-rating">
-												<i class="icon-star3"></i>
-												<i class="icon-star3"></i>
-												<i class="icon-star3"></i>
-												<i class="icon-star-half-full"></i>
-												<i class="icon-star-empty"></i>
-											</div>Product Single - Rating End -->
-
 										</div>
 
 										<div class="line line-sm"></div>
@@ -394,12 +407,6 @@ require_once('../../views/user_views/components/head.php'); ?>
 											<p>
 												<?php echo $product['product_description']; ?>
 											</p>
-
-											<!-- <ul class="iconlist mb-0">
-												<li><i class="icon-caret-right"></i> Dynamic Color Options</li>
-												<li><i class="icon-caret-right"></i> Lots of Size Options</li>
-												<li><i class="icon-caret-right"></i> 30-Day Return Policy</li>
-											</ul>Product Single - Short Description End -->
 
 											<a href="#" class="btn btn-dark btn-sm read-more-trigger"></a>
 										</div>
@@ -509,11 +516,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 										<div class="product">
 											<div class="product-image">
 												<a
-													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+													href="../../views/user_views/single_product.php?product_id=<?php echo $similar['product_id'] ?>"><img
 														src="../../../public/image/<?php echo $similar['product_image_1'] ?>"
 														alt="Image 1"></a>
 												<a
-													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+													href="../../views/user_views/single_product.php?product_id=<?php echo $similar['product_id'] ?>"><img
 														src="../../../public/image/<?php echo $similar['product_image_2'] ?>"
 														alt="Image 1"></a>
 												<?php if (!empty($similar['product_promotion_price'])) { ?>
@@ -532,7 +539,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 											<div class="product-desc">
 												<div class="product-title mb-1">
 													<h3><a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>">
+															href="../../views/user_views/single_product.php?product_id=<?php echo $similar['product_id'] ?>">
 															<?php echo $similar['product_name'] ?>
 														</a></h3>
 												</div>
@@ -585,11 +592,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 										<div class="product">
 											<div class="product-image">
 												<a
-													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+													href="../../views/user_views/single_product.php?product_id=<?php echo $similar['product_id'] ?>"><img
 														src="../../../public/image/<?php echo $similar['product_image_1'] ?>"
 														alt="Image 1"></a>
 												<a
-													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+													href="../../views/user_views/single_product.php?product_id=<?php echo $similar['product_id'] ?>"><img
 														src="../../../public/image/<?php echo $similar['product_image_2'] ?>"
 														alt="Image 1"></a>
 												<?php if (!empty($similar['product_promotion_price'])) { ?>
@@ -608,7 +615,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 											<div class="product-desc">
 												<div class="product-title mb-1">
 													<h3><a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>">
+															href="../../views/user_views/single_product.php?product_id=<?php echo $similar['product_id'] ?>">
 															<?php echo $similar['product_name'] ?>
 														</a></h3>
 												</div>

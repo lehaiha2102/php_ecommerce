@@ -349,11 +349,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 											<div class="product">
 												<div class="product-image">
 													<a
-														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+														href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 															src="../../../public/image/<?php echo $product['product_image_1'] ?>"
 															alt="Image 1"></a>
 													<a
-														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+														href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 															src="../../../public/image/<?php echo $product['product_image_2'] ?>"
 															alt="Image 1"></a>
 													<?php if (!empty($product['product_promotion_price'])) { ?>
@@ -444,11 +444,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 												<div class="product">
 													<div class="product-image">
 														<a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 																src="../../../public/image/<?php echo $product['product_image_1'] ?>"
 																alt="Image 1"></a>
 														<a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 																src="../../../public/image/<?php echo $product['product_image_2'] ?>"
 																alt="Image 1"></a>
 														<?php if (!empty($product['product_promotion_price'])) { ?>
@@ -540,11 +540,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 												<div class="product">
 													<div class="product-image">
 														<a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 																src="../../../public/image/<?php echo $product['product_image_1'] ?>"
 																alt="Image 1"></a>
 														<a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 																src="../../../public/image/<?php echo $product['product_image_2'] ?>"
 																alt="Image 1"></a>
 														<?php if (!empty($product['product_promotion_price'])) { ?>
@@ -638,11 +638,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 												<div class="product">
 													<div class="product-image">
 														<a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 																src="../../../public/image/<?php echo $product['product_image_1'] ?>"
 																alt="Image 1"></a>
 														<a
-															href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+															href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 																src="../../../public/image/<?php echo $product['product_image_2'] ?>"
 																alt="Image 1"></a>
 														<?php if (!empty($product['product_promotion_price'])) { ?>

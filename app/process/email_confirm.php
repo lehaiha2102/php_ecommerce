@@ -15,7 +15,6 @@ if (!empty(($_GET['email']))) {
     $result = $user->sendToken($email, $token);
     if ($result == 'success') {
         $phpmailer = new PHPMailer(true);
-
         try {
             //Server settings
             $phpmailer = new PHPMailer();
@@ -25,7 +24,6 @@ if (!empty(($_GET['email']))) {
             $phpmailer->Port = 2525;
             $phpmailer->Username = '32070f2520aab8';
             $phpmailer->Password = '6506b437cfbef4';
-
             //Recipients
             $phpmailer->setFrom('lehaiha.dev@gmail.com', 'ViTech');
             $phpmailer->addAddress($email); //Add a recipient
@@ -33,7 +31,6 @@ if (!empty(($_GET['email']))) {
             $phpmailer->Subject = 'Confirm email';
             $phpmailer->Body = '<p>This is a token to confirm email:</p>' . $token;
             // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
             $phpmailer->send();
             header('Location: ../views/auth/confirm_email.php?email='.$email.'');
             exit;

@@ -11,15 +11,6 @@ if ($connection->connect_error) {
 	die('Connect error' . $connection->connect_error);
 }
 
-$sql = "SELECT * FROM products ORDER BY RAND() LIMIT 4;";
-$result = $connection->query($sql);
-
-$products_similar = array();
-if ($result->num_rows > 0) {
-	while ($row = $result->fetch_assoc()) {
-		$products_similar[] = $row;
-	}
-}
 
 if (isset($_GET['product_id'])) {
 	$product_id = $_GET['product_id'];
@@ -34,5 +25,15 @@ if (isset($_GET['product_id'])) {
 			$products_wid[] = $row;
 		}
 	}
+
+	$sql_similar = "SELECT * FROM products WHERE product_id != $product_id ORDER BY RAND() LIMIT 4;";
+	$result_similar = $connection->query($sql_similar);
+
+$products_similar = array();
+if ($result_similar->num_rows > 0) {
+	while ($row = $result->fetch_assoc()) {
+		$products_similar[] = $row;
+	}
+}
 }
 ?>

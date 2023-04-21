@@ -22,7 +22,7 @@
                 
             }
             if($cart){
-                header('Location: ../views/user_views/single_product_page.php?product_id=' . $_GET['product_id']);
+                header('Location: ../views/user_views/single_product.php?product_id=' . $_GET['product_id']);
                 exit();
             } else{
                 echo 'failed';

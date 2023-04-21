@@ -41,11 +41,11 @@ if($connection->connect_error){
 											<div class="product">
 												<div class="product-image">
 													<a
-														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+														href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 															src="../../../public/image/<?php echo $product_seller['product_image_1'] ?>"
 															alt="Image 1"></a>
 													<a
-														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product_seller['product_id'] ?>"><img
+														href="../../views/user_views/single_product.php?product_id=<?php echo $product_seller['product_id'] ?>"><img
 															src="../../../public/image/<?php echo $product_seller['product_image_2'] ?>"
 															alt="Image 1"></a>
 													<?php if (!empty($product_seller['product_promotion_price'])) { ?>
@@ -67,7 +67,7 @@ if($connection->connect_error){
 												<div class="product-desc">
 													<div class="product-title mb-1">
 														<h3><a
-																href="../../views/user_views/single_product_page.php?product_id=<?php echo $product_seller['product_id'] ?>">
+																href="../../views/user_views/single_product.php?product_id=<?php echo $product_seller['product_id'] ?>">
 																<?php echo $product_seller['product_name'] ?>
 															</a></h3>
 													</div>

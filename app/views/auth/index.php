@@ -24,6 +24,11 @@ if (!empty($_SESSION['user'])) {
         <div class="form-container sign-up-container">
             <form action="../../process/register.php" method="POST" id="register">
                 <h1>Create Account</h1>
+                <?php if (isset($_GET['error'])) {
+                    $error = $_GET['error'];
+                    echo '<span>' . $error . '</span>';
+                } ?>
+
                 <input type="text" name="fullname" id="fullname" placeholder="Name" />
                 <span style="color:red;" id="fullnameError"></span>
 
@@ -49,11 +54,16 @@ if (!empty($_SESSION['user'])) {
         <div class="form-container sign-in-container">
             <form action="../../process/login.php" method="POST" id="login">
                 <h1>Sign in</h1>
-                <span style="color:red;"><?php if(isset($_SESSION['error'])){
-                    echo $_SESSION['error'];
-                    unset($_SESSION['error']);
-                    }?>
+                <span style="color:red;">
+                    <?php if (isset($_SESSION['error'])) {
+                        echo $_SESSION['error'];
+                        unset($_SESSION['error']);
+                    } ?>
                 </span>
+                <?php if (isset($_GET['message']) && $_GET['message'] == "failed") {
+                    echo '<span style="color:red;">You entered the wrong login code, please register again.</span>';
+                }
+                ?>
                 <input type="email" name="email" id="email" placeholder="Email" />
                 <span style="color:red;" id="emailError"></span>
 
@@ -84,7 +94,6 @@ if (!empty($_SESSION['user'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
     <!-- CSS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
     <!-- Default theme -->
@@ -93,20 +102,6 @@ if (!empty($_SESSION['user'])) {
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-    <script>
-        <?php if (isset($_GET['error'])) { ?>
-            alert("<?php echo $error = $_GET['error']; ?>")
-        <?php } ?>
-        
-    </script>
-    <script>
-        <?php if(isset($_GET['message']) && $_GET['message'] == "failed"){
-            ?> 
-            alert('You entered the wrong login code, please register again.')
-        <?php
-        }
-        ?>
-    </script>
     <script>
         const formRegister = document.querySelector('#register');
         const fullname = document.querySelector('#fullname');
@@ -161,7 +156,6 @@ if (!empty($_SESSION['user'])) {
                 return false;
             }
 
-
             if (phone.value == '') {
                 phoneError.textContent = 'Your phone is required';
                 phoneError.forcus();
@@ -172,7 +166,6 @@ if (!empty($_SESSION['user'])) {
                 phoneError.forcus();
                 return false;
             }
-
 
             if (address.value == '') {
                 addressError.textContent = 'Your address is required';
@@ -226,7 +219,6 @@ if (!empty($_SESSION['user'])) {
                 return false;
             }
 
-
             if (password.value === '') {
                 passwordError.textContent = 'Password is required';
                 password.focus();
@@ -236,20 +228,6 @@ if (!empty($_SESSION['user'])) {
             this.submit();
         })
     </script>
-
-    <!-- <script>
-        $(document).ready(function () {
-            var error = "<?php echo isset($_SESSION['error']) ? $_SESSION['error'] : '' ?>";
-
-            // Nếu có giá trị error thì hiển thị lên màn hình
-            if (error) {
-                alertify.alert(error);
-            }
-        });
-        <?php unset($_SESSION['error']) ?>
-    </script> -->
-
-
 </body>
 
 </html>

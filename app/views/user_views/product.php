@@ -389,11 +389,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 											<div class="product">
 												<div class="product-image">
 													<a
-														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+														href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 															src="../../../public/image/<?php echo $product['product_image_1'] ?>"
 															alt="Image 1"></a>
 													<a
-														href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id'] ?>"><img
+														href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id'] ?>"><img
 															src="../../../public/image/<?php echo $product['product_image_2'] ?>"
 															alt="Image 1"></a>
 													<?php if (!empty($product['product_promotion_price'])) { ?>
@@ -469,10 +469,10 @@ require_once('../../views/user_views/components/head.php'); ?>
 										<div class="col-lg-2 col-md-3 col-6 px-2">
 											<div class="product">
 												<div class="product-image">
-													<a href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id']?>"><img
+													<a href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id']?>"><img
 															src="../../../public/image/<?php echo $product['product_image_1'] ?>"
 															alt="Image 1"></a>
-													<a href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id']?>"><img
+													<a href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id']?>"><img
 															src="../../../public/image/<?php echo $product['product_image_2'] ?>"
 															alt="Image 1"></a>
 													<?php if (!empty($product['product_promotion_price'])) { ?>
@@ -490,7 +490,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 												</div>
 												<div class="product-desc">
 													<div class="product-title mb-1">
-														<h3><a href="../../views/user_views/single_product_page.php?product_id=<?php echo $product['product_id']?>">
+														<h3><a href="../../views/user_views/single_product.php?product_id=<?php echo $product['product_id']?>">
 																<?php echo $product['product_name'] ?>
 															</a></h3>
 													</div>
