@@ -18,10 +18,6 @@ require_once('../../views/user_views/components/head.php'); ?>
 	<!-- Document Wrapper
 	============================================= -->
 	<div id="wrapper" class="clearfix">
-		<!-- Header
-		============================================= -->
-		<!-- Header
-		============================================= -->
 		<header id="header" class="full-header header-size-md">
 			<div id="header-wrap">
 				<div class="container">
@@ -160,8 +156,8 @@ require_once('../../views/user_views/components/head.php'); ?>
 																<?php echo $cart_item['name'] ?>
 															</a>
 															<span class="top-cart-item-price d-block">
-
-																<?php echo number_format($cart_item['price'], 0, '.', ',') . ' đ'; ?>
+																$
+																<?php echo number_format($cart_item['price'], 0, '.', ','); ?>
 															</span>
 														</div>
 														<div class="top-cart-item-quantity">x
@@ -187,8 +183,8 @@ require_once('../../views/user_views/components/head.php'); ?>
 										}
 										?>
 										<span class="top-checkout-price">
-
-											<?php echo number_format($total_price, 0, '.', ',') . ' đ'; ?>
+											$
+											<?php echo number_format($total_price, 0, '.', ','); ?>
 										</span>
 
 										<a href="../user_views/cart.php" class="button button-3d button-small m-0">View
@@ -223,14 +219,73 @@ require_once('../../views/user_views/components/head.php'); ?>
 						<nav class="primary-menu with-arrows me-lg-auto">
 
 							<ul class="menu-container">
-								<?php foreach ($categories as $category) { ?>
-									<li class="menu-item current"><a class="menu-link"
-											href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
-											<div>
-												<?php echo $category['category_name'] ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'laptop-04-03-8393') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'smart-phone-04-03-6291') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'laptop-04-04-7607') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<li class="menu-item mega-menu sub-menu"><a class="menu-link" href="#">
+										<div>Other<i class="icon-angle-down"></i></div>
+									</a>
+									<div class="mega-menu-content mega-menu-style-2" style="width: 1196.67px;">
+										<div class="container" style="">
+											<div class="row">
+												<?php foreach ($categories as $category) {
+													if ($category['category_slug'] != 'laptop-04-03-8393' && $category['category_slug'] != 'smart-phone-04-03-6291' && $category['category_slug'] != 'laptop-04-04-7607') { ?>
+
+														<ul class="mega-menu-column sub-menu-container col-lg-4 border-start-0"
+															style="">
+
+															<li class="mega-menu-title menu-item sub-menu"><a class="menu-link"
+																	href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+																	<div>
+																		<?php
+																		echo $category['category_name']
+																			?>
+																	</div>
+																</a></li>
+														</ul>
+													<?php }
+												} ?>
 											</div>
-										</a></li>
-								<?php } ?>
+										</div>
+									</div>
+									<button class="sub-menu-trigger icon-chevron-right"></button>
+								</li>
 							</ul>
 
 						</nav><!-- #primary-menu end -->
@@ -246,6 +301,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 			<div class="header-wrap-clone"></div>
 		</header><!-- #header end -->
 
+
 		<!-- Content
 		============================================= -->
 		<section id="content">
@@ -257,21 +313,18 @@ require_once('../../views/user_views/components/head.php'); ?>
 								<div class="row gutter-50">
 									<div class="col-xl-7 col-lg-5 mb-0 sticky-sidebar-wrap">
 
-										<div class="masonry-thumbs grid-container grid-2" data-lightbox="gallery">
-											<a class="grid-item" href="" data-lightbox="gallery-item"><img
-													src="../../../public/image/<?php echo $product['product_image_1']; ?>"
-													alt="Watch 1"></a>
-											<a class="grid-item" href="" data-lightbox="gallery-item"><img
-													src="../../../public/image/<?php echo $product['product_image_2']; ?>"
-													alt="Watch 3"></a>
-											<a class="grid-item" href="" data-lightbox="gallery-item"><img
-													src="../../../public/image/<?php echo $product['product_image_3']; ?>"
-													alt="Watch 2"></a>
-											<a class="grid-item" href="" data-lightbox="gallery-item"><img
-													src="../../../public/image/<?php echo $product['product_image_4']; ?>"
-													alt="Watch 4"></a>
+										<div class="fslider" data-pagi="false" data-arrows="false">
+											<div class="flexslider">
+												<div class="slider-wrap">
+													<div class="slide"><img src="../../../public/image/<?php echo $product['product_image_1']; ?>"
+															alt="Slider 1"></div>
+													<div class="slide"><img src="../../../public/image/<?php echo $product['product_image_2']; ?>"
+															alt="Slider 2"></div>
+													<div class="slide"><img src="../../../public/image/<?php echo $product['product_image_3']; ?>"
+															alt="Slider 3"></div>
+												</div>
+											</div>
 										</div>
-
 									</div>
 
 									<div class="col-xl-5 col-lg-7 mb-0">
@@ -324,9 +377,9 @@ require_once('../../views/user_views/components/head.php'); ?>
 										<a onclick="AddCart(<?php echo $product['product_id']; ?>)" href="javascript:"
 											class="add-to-cart button button-large m-0">Add to
 											cart</a>
-										<a href="../../views/user_views/checkout_from_single.php?product_id=<?php echo $product['product_id'];?>"
+										<a href="../../views/user_views/checkout_from_single.php?product_id=<?php echo $product['product_id']; ?>"
 											class="add-to-cart button button-large m-0">Buy now</a>
-										
+
 
 										<div class="line line-sm"></div>
 
@@ -355,7 +408,9 @@ require_once('../../views/user_views/components/head.php'); ?>
 									============================================= -->
 										<div class="card product-meta mt-4 mb-5 rounded-0">
 											<div class="card-body">
-												<span itemprop="productID" class="sku_wrapper">SKU: <span class="sku"><?php echo $product['product_id']; ?></span></span>
+												<span itemprop="productID" class="sku_wrapper">SKU: <span class="sku">
+														<?php echo $product['product_id']; ?>
+													</span></span>
 												<span class="posted_in">Category: <a href="#" rel="tag">
 														<?php
 														foreach ($categories as $category) {
@@ -441,152 +496,154 @@ require_once('../../views/user_views/components/head.php'); ?>
 				<?php } ?>
 				<div class="section mb-0">
 
-<div class="container mw-md text-center">
-	<h4>Similar Products</h4>
+					<div class="container mw-md text-center">
+						<h4>Similar Products</h4>
 
-	<div class="row justify-content-center gutter-1">
+						<div class="row justify-content-center gutter-1">
 
-		<?php foreach ($products_similar as $similar) { 
-			if($product['category_id'] == $similar['category_id'] && $product['product_id'] != $similar['product_id']){?>
-			<!-- Shop Item 1
+							<?php foreach ($products_similar as $similar) {
+								if ($product['category_id'] == $similar['category_id'] && $product['product_id'] != $similar['product_id']) { ?>
+									<!-- Shop Item 1
 		============================================= -->
-			<div class="col-md-3 col-6 h-translate-y-sm all-ts">
-				<div class="product">
-					<div class="product-image">
-						<a
-							href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
-								src="../../../public/image/<?php echo $similar['product_image_1'] ?>"
-								alt="Image 1"></a>
-						<a
-							href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
-								src="../../../public/image/<?php echo $similar['product_image_2'] ?>"
-								alt="Image 1"></a>
-						<?php if (!empty($similar['product_promotion_price'])) { ?>
-							<div class="sale-flash badge bg-danger p-2">Sale!</div>
-						<?php } ?>
-						<div class="bg-overlay">
-							<div class="bg-overlay-content align-items-end justify-content-between"
-								data-hover-animate="fadeIn" data-hover-speed="400">
-								<a onclick="AddCart(<?php echo $similar['product_id']; ?>)"
-									href="javascript:" class="btn btn-dark me-2"><i
-										class="icon-shopping-basket"></i></a>
-							</div>
-							<div class="bg-overlay-bg bg-transparent"></div>
-						</div>
-					</div>
-					<div class="product-desc">
-						<div class="product-title mb-1">
-							<h3><a
-									href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>">
-									<?php echo $similar['product_name'] ?>
-								</a></h3>
-						</div>
-						<?php if (!empty($similar['product_promotion_price'])) { ?>
-							<div class="product-price font-primary">
-								<del class="me-1">
+									<div class="col-md-3 col-6 h-translate-y-sm all-ts">
+										<div class="product">
+											<div class="product-image">
+												<a
+													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+														src="../../../public/image/<?php echo $similar['product_image_1'] ?>"
+														alt="Image 1"></a>
+												<a
+													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+														src="../../../public/image/<?php echo $similar['product_image_2'] ?>"
+														alt="Image 1"></a>
+												<?php if (!empty($similar['product_promotion_price'])) { ?>
+													<div class="sale-flash badge bg-danger p-2">Sale!</div>
+												<?php } ?>
+												<div class="bg-overlay">
+													<div class="bg-overlay-content align-items-end justify-content-between"
+														data-hover-animate="fadeIn" data-hover-speed="400">
+														<a onclick="AddCart(<?php echo $similar['product_id']; ?>)"
+															href="javascript:" class="btn btn-dark me-2"><i
+																class="icon-shopping-basket"></i></a>
+													</div>
+													<div class="bg-overlay-bg bg-transparent"></div>
+												</div>
+											</div>
+											<div class="product-desc">
+												<div class="product-title mb-1">
+													<h3><a
+															href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>">
+															<?php echo $similar['product_name'] ?>
+														</a></h3>
+												</div>
+												<?php if (!empty($similar['product_promotion_price'])) { ?>
+													<div class="product-price font-primary">
+														<del class="me-1">
 
-									
-									<?php echo number_format($similar['product_price'], 0, '.', ',').' đ'; ?>
-								</del>
-								<ins>
-									
-									<?php echo number_format($similar['product_promotion_price'], 0, '.', ',').' đ'; ?>
-								</ins>
-							</div>
-						<?php } else { ?>
-							<div class="product-price font-primary">
 
-								<ins>
-									
-									<?php echo number_format($similar['product_price'], 0, '.', ',').' đ'; ?>
-								</ins>
-							</div>
-						<?php } ?>
+															<?php echo number_format($similar['product_price'], 0, '.', ',') . ' đ'; ?>
+														</del>
+														<ins>
+
+															<?php echo number_format($similar['product_promotion_price'], 0, '.', ',') . ' đ'; ?>
+														</ins>
+													</div>
+												<?php } else { ?>
+													<div class="product-price font-primary">
+
+														<ins>
+
+															<?php echo number_format($similar['product_price'], 0, '.', ',') . ' đ'; ?>
+														</ins>
+													</div>
+												<?php } ?>
+											</div>
+										</div>
+									</div>
+
+								<?php }
+							} ?>
+						</div>
+
 					</div>
+
 				</div>
-			</div>
-
-		<?php } }?>
-	</div>
-
-</div>
-
-</div>
 
 
-<div class="section mb-0">
+				<div class="section mb-0">
 
-<div class="container mw-md text-center">
-	<h4>Similar Brand Products</h4>
+					<div class="container mw-md text-center">
+						<h4>Similar Brand Products</h4>
 
-	<div class="row justify-content-center gutter-1">
+						<div class="row justify-content-center gutter-1">
 
-		<?php foreach ($products_similar as $similar) {
-			if($product['product_supplier'] == $similar['product_supplier'] && $product['product_id'] != $similar['product_id']){?> 
-			<!-- Shop Item 1
+							<?php foreach ($products_similar as $similar) {
+								if ($product['product_supplier'] == $similar['product_supplier'] && $product['product_id'] != $similar['product_id']) { ?>
+									<!-- Shop Item 1
 ============================================= -->
-			<div class="col-md-3 col-6 h-translate-y-sm all-ts">
-				<div class="product">
-					<div class="product-image">
-						<a
-							href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
-								src="../../../public/image/<?php echo $similar['product_image_1'] ?>"
-								alt="Image 1"></a>
-						<a
-							href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
-								src="../../../public/image/<?php echo $similar['product_image_2'] ?>"
-								alt="Image 1"></a>
-						<?php if (!empty($similar['product_promotion_price'])) { ?>
-							<div class="sale-flash badge bg-danger p-2">Sale!</div>
-						<?php } ?>
-						<div class="bg-overlay">
-							<div class="bg-overlay-content align-items-end justify-content-between"
-								data-hover-animate="fadeIn" data-hover-speed="400">
-								<a onclick="AddCart(<?php echo $similar['product_id']; ?>)"
-									href="javascript:" class="btn btn-dark me-2"><i
-										class="icon-shopping-basket"></i></a>
-							</div>
-							<div class="bg-overlay-bg bg-transparent"></div>
-						</div>
-					</div>
-					<div class="product-desc">
-						<div class="product-title mb-1">
-							<h3><a
-									href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>">
-									<?php echo $similar['product_name'] ?>
-								</a></h3>
-						</div>
-						<?php if (!empty($similar['product_promotion_price'])) { ?>
-							<div class="product-price font-primary">
-								<del class="me-1">
+									<div class="col-md-3 col-6 h-translate-y-sm all-ts">
+										<div class="product">
+											<div class="product-image">
+												<a
+													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+														src="../../../public/image/<?php echo $similar['product_image_1'] ?>"
+														alt="Image 1"></a>
+												<a
+													href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>"><img
+														src="../../../public/image/<?php echo $similar['product_image_2'] ?>"
+														alt="Image 1"></a>
+												<?php if (!empty($similar['product_promotion_price'])) { ?>
+													<div class="sale-flash badge bg-danger p-2">Sale!</div>
+												<?php } ?>
+												<div class="bg-overlay">
+													<div class="bg-overlay-content align-items-end justify-content-between"
+														data-hover-animate="fadeIn" data-hover-speed="400">
+														<a onclick="AddCart(<?php echo $similar['product_id']; ?>)"
+															href="javascript:" class="btn btn-dark me-2"><i
+																class="icon-shopping-basket"></i></a>
+													</div>
+													<div class="bg-overlay-bg bg-transparent"></div>
+												</div>
+											</div>
+											<div class="product-desc">
+												<div class="product-title mb-1">
+													<h3><a
+															href="../../views/user_views/single_product_page.php?product_id=<?php echo $similar['product_id'] ?>">
+															<?php echo $similar['product_name'] ?>
+														</a></h3>
+												</div>
+												<?php if (!empty($similar['product_promotion_price'])) { ?>
+													<div class="product-price font-primary">
+														<del class="me-1">
 
-									$
-									<?php echo number_format($similar['product_price'], 0, '.', ','); ?>
-								</del>
-								<ins>
-									$
-									<?php echo number_format($similar['product_promotion_price'], 0, '.', ','); ?>
-								</ins>
-							</div>
-						<?php } else { ?>
-							<div class="product-price font-primary">
+															$
+															<?php echo number_format($similar['product_price'], 0, '.', ','); ?>
+														</del>
+														<ins>
+															$
+															<?php echo number_format($similar['product_promotion_price'], 0, '.', ','); ?>
+														</ins>
+													</div>
+												<?php } else { ?>
+													<div class="product-price font-primary">
 
-								<ins>
-									$
-									<?php echo number_format($similar['product_price'], 0, '.', ','); ?>
-								</ins>
-							</div>
-						<?php } ?>
+														<ins>
+															$
+															<?php echo number_format($similar['product_price'], 0, '.', ','); ?>
+														</ins>
+													</div>
+												<?php } ?>
+											</div>
+										</div>
+									</div>
+
+								<?php }
+							} ?>
+						</div>
+
 					</div>
+
 				</div>
-			</div>
-
-		<?php } }?>
-	</div>
-
-</div>
-
-</div>
 
 			</div>
 		</section><!-- #content end -->
@@ -609,7 +666,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 							</div>
 						</div>
 
-						
+
 					</div>
 
 				</div>
@@ -632,17 +689,17 @@ require_once('../../views/user_views/components/head.php'); ?>
 	<!-- Footer Scripts
 	============================================= -->
 	<script src="../../../public/user_public/js/functions.js"></script>
-		<!-- JavaScript -->
-		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<!-- JavaScript -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
-<!-- CSS -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-<!-- Default theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-<!-- Semantic UI theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
-<!-- Bootstrap theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 
 	<script>
 		$(document).ready(changeHeaderColor);
@@ -683,7 +740,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 
 
 	</script>
-<script>
+	<script>
 		function AddCart(product_id) {
 			$.ajax({
 				url: '../../process/add_items_cart_in_single.php?product_id=' + product_id,

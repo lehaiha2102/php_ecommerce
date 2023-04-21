@@ -41,7 +41,7 @@ session_start();
                     ?>
                     <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number."
                         data-val-required="The Amount field is required." id="amount" name="amount" type="number"
-                        value="<?php echo  $total_price; ?>" disabled/>
+                        value="<?php echo  $total_price; ?>"/>
                         <span> <?php echo number_format($total_price).'đ' ; ?> </span>
 
                 </div>

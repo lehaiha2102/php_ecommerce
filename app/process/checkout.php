@@ -46,10 +46,9 @@ session_start();
             
         }
     } else {
-        echo '<script>
-            alert("You need to enter all information to proceed with the order.");
-            window.location.replace("../views/user_views/checkout.php");
-            </script>';
+        $response = array('success' => false, 'message' => 'You need to enter all information to proceed with the order.!!');
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 }
 ?>

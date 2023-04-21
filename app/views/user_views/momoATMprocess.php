@@ -58,10 +58,18 @@ $extraData = "";
         'signature' => $signature);
     $result = execPostRequest($endpoint, json_encode($data));
     $jsonResult = json_decode($result, true);  // decode json
-    // var_dump($result); // display the API response
-    // var_dump($jsonResult); // display the decoded JSON data
+    var_dump($result); // display the API response
+    var_dump($jsonResult); // display the decoded JSON data
     //Just a example, please check more in there
 
+   
+if (isset($jsonResult['message']) && $jsonResult['message'] === 'Yêu cầu bị từ chối vì số tiền giao dịch nhỏ hơn số tiền tối thiểu cho phép là 10000 VND hoặc lớn hơn số tiền tối đa cho phép là 50000000 VND.') {
+    echo $jsonResult['message'];
+    // Chuyển hướng đến trang khác
+    header('Location: ../../views/user_views/checkout.php?errormomo='.urlencode('The request is rejected because the transaction amount is less than the minimum allowed amount of VND 10,000 or greater than the maximum allowable amount of VND 50 million.'));
+  } else if (isset($jsonResult['payUrl'])) {
+    // Chuyển hướng đến trang thanh toán
     header('Location: ' . $jsonResult['payUrl']);
+  }
 
 ?>

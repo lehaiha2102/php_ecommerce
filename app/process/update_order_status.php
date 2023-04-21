@@ -7,7 +7,7 @@
     $query = "UPDATE orders SET order_status = $orderStatus WHERE order_id = $orderId";
     if (mysqli_query($connection, $query)) {
         echo 'success';
-        if($orderStatus = 4){
+        if($orderStatus == 4){
             $query = "UPDATE orders SET payment_status = 2 WHERE order_status = 4";
             if (mysqli_query($connection, $query)) {
                 echo 'success';
@@ -15,7 +15,7 @@
                 echo 'error';
             }
         } else{
-            $query = "UPDATE orders SET payment_status = 1";
+            $query = "UPDATE orders SET payment_status = 1 WHERE order_id = $orderId";
             if (mysqli_query($connection, $query)) {
                 echo 'success';
             } else {

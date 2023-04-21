@@ -102,7 +102,8 @@
 							</div>
 
 							<div id="favourite" class="position-relative">
-								<a href="../../views/user_views/profile.php#tab-replies"><i class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
+								<a href="../../views/user_views/profile.php#tab-replies"><i
+										class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
 							</div>
 
 							<div class="header-misc-icon">
@@ -261,14 +262,72 @@
 
 							<ul class="menu-container">
 								<?php foreach ($categories as $category) {
-									 ?>
-									<li class="menu-item current"><a class="menu-link"
-											href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
-											<div>
-												<?php echo $category['category_name'] ?>
+									if ($category['category_slug'] == 'laptop-04-03-8393') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'smart-phone-04-03-6291') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'laptop-04-04-7607') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<li class="menu-item mega-menu sub-menu"><a class="menu-link" href="#">
+										<div>Other<i class="icon-angle-down"></i></div>
+									</a>
+									<div class="mega-menu-content mega-menu-style-2" style="width: 1196.67px;">
+										<div class="container" style="">
+											<div class="row">
+												<?php foreach ($categories as $category) {
+													if ($category['category_slug'] != 'laptop-04-03-8393' && $category['category_slug'] != 'smart-phone-04-03-6291' && $category['category_slug'] != 'laptop-04-04-7607') { ?>
+
+														<ul class="mega-menu-column sub-menu-container col-lg-4 border-start-0"
+															style="">
+
+															<li class="mega-menu-title menu-item sub-menu"><a class="menu-link"
+																	href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+																	<div>
+																		<?php
+																		echo $category['category_name']
+																			?>
+																	</div>
+																</a></li>
+														</ul>
+													<?php }
+												} ?>
 											</div>
-										</a></li>
-								<?php } ?>
+										</div>
+									</div>
+									<button class="sub-menu-trigger icon-chevron-right"></button>
+								</li>
 							</ul>
 
 						</nav><!-- #primary-menu end -->

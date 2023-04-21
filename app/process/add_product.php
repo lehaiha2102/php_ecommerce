@@ -2,7 +2,6 @@
     require_once('../../app/classes/product.php');
     require_once('../../app/helpers/helpers.php');
 
-    // if(isset($_POST['product_name']) && isset($_POST['product_import_price']) && isset($_POST['product_price']) && isset($_POST['product_promotion_price']) && isset($_POST['product_quantity']) && isset($_FILES['product_image_1']) && isset($_FILES['product_image_2']) && isset($_FILES['product_image_3']) && isset($_POST['product_description']) && isset($_POST['category_id'])){
         if(isset($_POST['product_add']) && !empty($_POST['product_name'])&& !empty($_POST['product_supplier']) && !empty($_POST['product_import_price']) && !empty($_POST['product_price']) && !empty($_POST['product_quantity'] ) && !empty($_POST['product_description'] )  && !empty($_POST['product_specifications'] ) && !empty($_FILES['product_image_1'])  && !empty($_FILES['product_image_2'])  && !empty($_FILES['product_image_3'])  && !empty($_FILES['product_image_4'])){
         $product_name = $_POST['product_name'];
         $product_slug = create_slug($product_name);
@@ -53,9 +52,7 @@
             exit;
         }
     }else{
-        echo '<script>
-            alert("You need to fill in the information of the product to proceed with adding new products");
-            window.location.replace("../views/admin/product.php");
-            </script>';
+        header('Location: ../views/admin/addproduct.php?message=failed');
+            exit;
     }
 ?>

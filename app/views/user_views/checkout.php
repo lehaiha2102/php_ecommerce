@@ -74,10 +74,11 @@ require_once('../../views/user_views/components/head.php'); ?>
 							</div>
 
 							<div id="favourite" class="position-relative">
-								<a href="../../views/user_views/profile.php#tab-replies"><i class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
+								<a href="../../views/user_views/profile.php#tab-replies"><i
+										class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
 							</div>
 
-							<!-- <div class="header-misc-icon">
+							<div class="header-misc-icon">
 								<a href="#" id="notifylink" data-bs-toggle="dropdown" data-bs-offset="0,15"
 									aria-haspopup="true" aria-expanded="false" data-offset="12,12" class=""><i
 										class="icon-line-bell notification-badge"></i></a>
@@ -108,7 +109,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 										</a>
 									</div>
 								</div>
-							</div> -->
+							</div>
 
 							<!-- Top Cart
 							============================================= -->
@@ -233,14 +234,72 @@ require_once('../../views/user_views/components/head.php'); ?>
 
 							<ul class="menu-container">
 								<?php foreach ($categories as $category) {
-									 ?>
-									<li class="menu-item current"><a class="menu-link"
-											href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
-											<div>
-												<?php echo $category['category_name'] ?>
+									if ($category['category_slug'] == 'laptop-04-03-8393') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'smart-phone-04-03-6291') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'laptop-04-04-7607') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<li class="menu-item mega-menu sub-menu"><a class="menu-link" href="#">
+										<div>Other<i class="icon-angle-down"></i></div>
+									</a>
+									<div class="mega-menu-content mega-menu-style-2" style="width: 1196.67px;">
+										<div class="container" style="">
+											<div class="row">
+												<?php foreach ($categories as $category) {
+													if ($category['category_slug'] != 'laptop-04-03-8393' && $category['category_slug'] != 'smart-phone-04-03-6291' && $category['category_slug'] != 'laptop-04-04-7607') { ?>
+
+														<ul class="mega-menu-column sub-menu-container col-lg-4 border-start-0"
+															style="">
+
+															<li class="mega-menu-title menu-item sub-menu"><a class="menu-link"
+																	href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+																	<div>
+																		<?php
+																		echo $category['category_name']
+																			?>
+																	</div>
+																</a></li>
+														</ul>
+													<?php }
+												} ?>
 											</div>
-										</a></li>
-								<?php } ?>
+										</div>
+									</div>
+									<button class="sub-menu-trigger icon-chevron-right"></button>
+								</li>
 							</ul>
 
 						</nav><!-- #primary-menu end -->
@@ -419,15 +478,20 @@ require_once('../../views/user_views/components/head.php'); ?>
 							<h3>Shipping Address</h3>
 							<form id="shipping-form" name="shipping-form" class="row mb-0" action="../../process/checkout.php" method="post">
 
-								<div class="col-md-12 form-group">
-									<label for="shipping-form-name">Name:</label>
-									<input type="text" id="shipping-form-name" name="shipping-form-name" value="" class="sm-form-control" />
+								<!-- <div class="col-md-12 form-group">
+									<input type="text" name="fullname" id="fullname" placeholder="Name" />
+									<span style="color:red;" id="fullnameError"></span>
 								</div>
 
-								<div class="w-100"></div>
+								<div class="w-100"></div> -->
 
 								<div class="col-12 form-group">
 								<label for="shipping-form-address">Address:</label><br>
+								<?php if (!empty($_SESSION['user']))
+                                foreach ($users as $user) {
+                                    if ($_SESSION['user']['email'] == $user['email']) { ?>
+                                            <input type="radio" onclick="updateAddress('<?php echo $user['address']; ?>')" id="addresscheckbox<?php echo $user['address']; ?>" name="address" value="<?php echo $user['address']; ?>" checked/><?php echo $user['address']; ?><br/>
+                                <?php }} ?>
 								<?php if (isset($address_user)) {
 									foreach ($address_user as $index => $address) { ?>
 												<input type="radio" onclick="updateAddress('<?php echo $address['address'] ?>')" id="addresscheckbox<?php echo $address['id'] ?>" name="address" value="<?php echo $address['address'] ?>"/><?php echo $address['address'] ?><br/>
@@ -446,17 +510,20 @@ require_once('../../views/user_views/components/head.php'); ?>
 
 								<div class="col-12 form-group">
 									<label for="shipping-form-address">Phone:</label>
-									<input type="text" id="shipping-form-address" name="phone" value="" class="sm-form-control" />
+									<input type="text" id="phone" name="phone" value="" class="sm-form-control" />
+									<span style="color:red;" id="phoneError"></span>
+
 								</div>
 								<input type="hidden" name="payment_method_id" value="1" ><br>
 								<button type="submit" style=" border: none;" type="submit" name="Payondelivery" ><img src="../../../public/image/Blue Modern Game Button Twitch Panel3.png" alt=""></button>
 							</form>
 							<br>
-								<!-- <form action="../../process/checkout.php" method="POST">
+								<form action="../../process/checkout.php" method="POST">
 									<input type="hidden" id="address-input" name="address" value="">
 									<input type="hidden" id="address-input" name="payment_method" value="3">
 									<button type="submit" style="border:none"><img src="../../../public/image/vnpaycheckoutbtn.jpg" alt=""></button>
-								</form> -->
+								</form>
+
 							<form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded"
 									action="../../views/user_views/momoprocess.php">
 									<input type="hidden" name="total" value="<?php echo $total_price; ?>" id="">
@@ -468,7 +535,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 									action="../../views/user_views/momoATMprocess.php">
 									<input type="hidden" name="total" value="<?php echo $total_price; ?>" id="">
 									<input type="hidden" name="phone" value=<>
-									<input type="hidden" id="address-input" name="address" value="">
+									<input type="hidden" id="address-input-momo" name="address" value="">
 									<button style=" border: none;" type="submit" name="momoatm" ><img src="../../../public/image/Blue Modern Game Button Twitch Panel2.png" alt=""></button>
 							</form>
 							
@@ -551,15 +618,22 @@ require_once('../../views/user_views/components/head.php'); ?>
 
 	<script
 	src="https://www.paypal.com/sdk/js?client-id=AWoFVlh8jO7M4-ggsapz4_xnZqXyjiNLX7U9Vcwgasj75WdbQthHopHw84dOKauboKl6nu0sqI16PmYi"></script>
+<script>
+        <?php if (isset($_GET['errormomo'])) { ?>
+            alert("<?php echo $error = $_GET['errormomo']; ?>")
+        <?php } ?>
+        
+    </script>
 	<script>
-	let selectedAddress = '';
-
+	let selectedAddress = '<?php echo !empty($address_user) ? $address_user[0]['address'] : ""; ?>';
 	function updateAddress(address) {
-	selectedAddress = address;
-	document.getElementById("address-input").value = selectedAddress;
+		selectedAddress = address;
+		document.getElementById("address-input-momo").value = selectedAddress;
 	}
+	// Đảm bảo rằng giá trị mặc định được gán vào input
+	document.getElementById("address-input-momo").value = selectedAddress;
+</script>
 
-</script> 
   <script>
 	paypal.Buttons({
 	  createOrder: function (data, actions) {
@@ -575,7 +649,7 @@ require_once('../../views/user_views/components/head.php'); ?>
 	  },
 	  onApprove: function (data, actions) {
 		return actions.order.capture().then(function (details) {
-		  window.location.href = "http://127.0.0.1:8080/php_ecommerce/app/process/camon.php?payment=paypal";
+		  window.location.href = "http://127.0.0.1:8080/php_ecommerce/app/process/camon.php?payment=paypal&phone="+$('#phone').val();
 		});
 	  },
 	  onError: function (err) {
@@ -583,5 +657,64 @@ require_once('../../views/user_views/components/head.php'); ?>
 	  }
 	}).render('#paypal-button-container'); 
   </script>
+   <script>
+        const formLogin = document.querySelector('#shipping-form');
+		const phone = document.querySelector('#phone');
+        const phoneError = document.querySelector('#phoneError');
+		const fullname = document.querySelector('#fullname');
+        const fullnameError = document.querySelector('#fullnameError');
+
+		fullname.textContent = '';
+        fullnameError.textContent = '';
+
+		phone.textContent = '';
+        phoneError.textContent = '';
+
+        formLogin.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+		 if(fullname.value == ''){
+            fullnameError.textContent = 'Your name is required';
+            fullnameError.forcus();
+        }
+        
+
+         
+        if(phone.value == ''){
+            phoneError.textContent = 'Your phone is required';
+            phoneError.forcus();
+        }
+        
+        if (!/^(0|\+84)[3|5|7|8|9][0-9]{8}$/g.test(phone.value)) {
+            phoneError.textContent = 'Please enter a valid phone number';
+            phoneError.forcus();
+            return false;
+        }
+
+
+        this.submit();
+    })
+    </script>
+	<script>
+		function checkTotal(event) {
+			const totalField = document.getElementById('total-field');
+			const totalValue = Number(totalField.value);
+
+			if (totalValue > 50000000) {
+				event.preventDefault();
+			alert('The request is rejected because the transaction amount is less than the minimum allowed amount of VND 10,000 or greater than the maximum allowable amount of VND 50 million.');
+			 // Ngăn form được gửi đi
+			}
+		}
+	</script>
+	<script>
+		$(document).ready(function(){
+			$('#shipping-form').submit(function(e){
+				e.preventDefault();
+				
+
+			})
+		})
+	</script>
 </body>
 </html>

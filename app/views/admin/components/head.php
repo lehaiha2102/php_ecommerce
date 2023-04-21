@@ -24,14 +24,6 @@
 
     <style>
         /* Button style */
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
 
 /* Dropdown container */
 .dropdown {
@@ -76,6 +68,5 @@ button {
 .dropdown-content button:hover {
   background-color: #ddd;
 }
-
-    </style>
+</style>
 </head>

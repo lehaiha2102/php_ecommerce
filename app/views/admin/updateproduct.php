@@ -118,9 +118,8 @@ if ($productresult->num_rows === 1) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="hidden" name="existing_image_1"
+                                                    <div class="row">
+                                                        <input type="hidden" name="existing_image_1"
                                                     value="<?php echo $product['product_image_1'] ?>">
                                                 <input type="hidden" name="existing_image_2"
                                                     value="<?php echo $product['product_image_2'] ?>">
@@ -128,34 +127,34 @@ if ($productresult->num_rows === 1) {
                                                     value="<?php echo $product['product_image_3'] ?>">
                                                 <input type="hidden" name="existing_image_4"
                                                     value="<?php echo $product['product_image_4'] ?>">
-
-                                                <div class="position-relative form-group"><label for="exampleFile"
-                                                        class="">Image</label><input name="product_image_1"
-                                                        id="exampleFile" type="file" class="form-control-file"
-                                                        value="<?php echo $product['product_image_1'] ?>">
+                                            <div class="col-md-6">
+                                                <div class="position-relative form-group">
+                                                    <label for="product_image_1" class="">Image</label>
+                                                    <input name="product_image_1" id="product_image_1" type="file" class="form-control-file">
+                                                    <img id="preview_1" src="../../../public/image/<?php echo $product['product_image_1']?>" alt="Preview" style=" max-width:100%; height:auto;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="position-relative form-group"><label for="exampleFile"
-                                                        class="">Image</label><input name="product_image_2"
-                                                        id="exampleFile" type="file" class="form-control-file"
-                                                        value="<?php echo $product['product_image_2'] ?>">
+                                                <div class="position-relative form-group">
+                                                    <label for="product_image_2" class="">Image</label>
+                                                    <input name="product_image_2" id="product_image_2" type="file" class="form-control-file">
+                                                    <img id="preview_2" src="../../../public/image/<?php echo $product['product_image_2']?>" alt="Preview" style=" max-width:100%; height:auto;">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="position-relative form-group"><label for="exampleFile"
-                                                        class="">Image</label><input name="product_image_3"
-                                                        id="exampleFile" type="file" class="form-control-file"
-                                                        value="<?php echo $product['product_image_3'] ?>">
+                                                <div class="position-relative form-group">
+                                                    <label for="product_image_3" class="">Image</label>
+                                                    <input name="product_image_3" id="product_image_3" type="file" class="form-control-file">
+                                                    <img id="preview_3" src="../../../public/image/<?php echo $product['product_image_3']?>" alt="Preview" style=" max-width:100%; height:auto;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="position-relative form-group"><label for="exampleFile"
-                                                        class="">Image</label><input name="product_image_4"
-                                                        id="exampleFile" type="file" class="form-control-file"
-                                                        value="<?php echo $product['product_image_4'] ?>">
+                                                <div class="position-relative form-group">
+                                                    <label for="product_image_4" class="">Image</label>
+                                                    <input name="product_image_4" id="product_image_4" type="file" class="form-control-file">
+                                                    <img id="preview_4" src="../../../public/image/<?php echo $product['product_image_4']?>" alt="Preview" style=" max-width:100%; height:auto;">
                                                 </div>
                                             </div>
                                         </div>
@@ -216,6 +215,54 @@ if ($productresult->num_rows === 1) {
             CKEDITOR.replace('product_description');
             CKEDITOR.replace('product_specifications');
         </script>
+         <script>
+    // lấy các input file
+    const input_1 = document.getElementById("product_image_1");
+    const input_2 = document.getElementById("product_image_2");
+    const input_3 = document.getElementById("product_image_3");
+	const input_4 = document.getElementById("product_image_4");
+    
+    // lấy các thẻ img
+    const preview_1 = document.getElementById("preview_1");
+    const preview_2 = document.getElementById("preview_2");
+    const preview_3 = document.getElementById("preview_3");
+	const preview_4 = document.getElementById("preview_4");
+    // khi một hình ảnh được chọn, hiển thị nó lên thẻ img tương ứng
+    input_1.addEventListener("change", function() {
+        const reader = new FileReader();
+        reader.onload = function() {
+            preview_1.src = reader.result;
+            preview_1.style.display = "block";
+        };
+        reader.readAsDataURL(input_1.files[0]);
+    });
+
+    input_2.addEventListener("change", function() {
+        const reader = new FileReader();
+        reader.onload = function() {
+            preview_2.src = reader.result;
+            preview_2.style.display = "block";
+        };
+        reader.readAsDataURL(input_2.files[0]);
+    });
+    
+    input_3.addEventListener("change", function() {
+        const reader = new FileReader();
+        reader.onload = function() {
+            preview_3.src = reader.result;
+            preview_3.style.display = "block";
+        };
+        reader.readAsDataURL(input_3.files[0]);
+    });
+	input_4.addEventListener("change", function() {
+        const reader = new FileReader();
+        reader.onload = function() {
+            preview_4.src = reader.result;
+            preview_4.style.display = "block";
+        };
+        reader.readAsDataURL(input_4.files[0]);
+    });
+</script>
 </body>
 
 </html>

@@ -26,6 +26,7 @@ $_SESSION['order_id'] = $order_id;
 $order_id = $_SESSION['order_id'];
 
 if (isset($_GET['payment']) == 'paypal') {
+    $phone = $_GET['phone'];
     foreach ($users as $index => $user) {
         if (!empty($_SESSION['user']['email'])) {
             if ($user['email'] == $_SESSION['user']['email']) {
@@ -33,9 +34,9 @@ if (isset($_GET['payment']) == 'paypal') {
                 $payment_method_id = 2;
                 $payment_status = 2;
                 $ship_address = $user['address'];
-                $sql_order = 'INSERT INTO orders(order_id, user_id, payment_method_id, payment_status, ship_address) VALUES(?,?, ?, ?, ?)';
+                $sql_order = 'INSERT INTO orders(order_id, user_id, payment_method_id, payment_status, ship_address, recipient_phone) VALUES(?,?,?, ?, ?, ?)';
                 $stmt_order = $connection->prepare($sql_order);
-                $stmt_order->bind_param('iiiis',$order_id, $user_id, $payment_method_id, $payment_status, $ship_address);
+                $stmt_order->bind_param('iiiiss',$order_id, $user_id, $payment_method_id, $payment_status, $ship_address, $phone);
                 if ($stmt_order->execute()) {
                     $sql_order_detail = 'INSERT INTO order_detail(order_id, product_id, product_price, product_quantity) VALUES (?, ?, ?, ?)';
                     $stmt_order_detail = $connection->prepare($sql_order_detail);

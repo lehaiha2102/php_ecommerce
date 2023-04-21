@@ -1,10 +1,10 @@
-<?php 
+<?php
 session_start();
-if(!empty($_SESSION['user'])){
-    if($_SESSION['user']['role_id'] == 3){
+if (!empty($_SESSION['user'])) {
+    if ($_SESSION['user']['role_id'] == 3) {
         header('Location: ../../views/admin/index.php');
         exit;
-    } else if($_SESSION['user']['role_id'] == 4){
+    } else if ($_SESSION['user']['role_id'] == 4) {
         header('Location: ../../views/user_views/index.php');
         exit;
     }
@@ -30,6 +30,7 @@ if(!empty($_SESSION['user'])){
                 <input type="text" name="email" id="emailregister" placeholder="Email" />
                 <span style="color:red;" id="emailregisterError"></span>
 
+
                 <input type="text" name="phone" id="phone" placeholder="Phone">
                 <span style="color:red;" id="phoneError"></span>
 
@@ -48,12 +49,16 @@ if(!empty($_SESSION['user'])){
         <div class="form-container sign-in-container">
             <form action="../../process/login.php" method="POST" id="login">
                 <h1>Sign in</h1>
+                <span style="color:red;"><?php if(isset($_SESSION['error'])){
+                    echo $_SESSION['error'];
+                    unset($_SESSION['error']);
+                    }?>
+                </span>
                 <input type="email" name="email" id="email" placeholder="Email" />
                 <span style="color:red;" id="emailError"></span>
 
                 <input type="password" name="password" id="password" placeholder="Password" required minlength="8" />
                 <span style="color:red;" id="passwordError"></span>
-
                 <a href="../../views/auth/forgot_password.php">Forgot your password?</a>
                 <button type="submit" name="login" value="login">Sign In</button>
             </form>
@@ -73,22 +78,35 @@ if(!empty($_SESSION['user'])){
             </div>
         </div>
     </div>
-    
+
     <div id="error-message"></div>
     <script src="../../../public/auth/script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-	<!-- Default theme -->
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-	<!-- Semantic UI theme -->
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
-	<!-- Bootstrap theme -->
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+    <script>
+        <?php if (isset($_GET['error'])) { ?>
+            alert("<?php echo $error = $_GET['error']; ?>")
+        <?php } ?>
+        
+    </script>
+    <script>
+        <?php if(isset($_GET['message']) && $_GET['message'] == "failed"){
+            ?> 
+            alert('You entered the wrong login code, please register again.')
+        <?php
+        }
+        ?>
+    </script>
     <script>
         const formRegister = document.querySelector('#register');
         const fullname = document.querySelector('#fullname');
@@ -117,68 +135,68 @@ if(!empty($_SESSION['user'])){
         repasswordregister.textContent = '';
         repasswordregisterError.textContent = '';
 
-        formRegister.addEventListener('submit', function(event) {
-        event.preventDefault();
+        formRegister.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-        if(fullname.value == ''){
-            fullnameError.textContent = 'Your name is required';
-            fullnameError.forcus();
-        }
-        
-
-        if(emailregister.value == ''){
-            emailregisterError.textContent = 'Email name is required';
-            emailregister.forcus();
-        }
-        
-        if (!emailregister.value.includes('@')) {
-            emailregisterError.textContent = 'Email must be valid';
-            emailregister.focus();
-            return false;
-        }
-
-        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(emailregister.value)) {
-        emailregisterError.textContent = 'Please enter a valid email address';
-        emailError.focus();
-        return false;
-}
-
-        
-        if(phone.value == ''){
-            phoneError.textContent = 'Your phone is required';
-            phoneError.forcus();
-        }
-        
-        if (!/^(0|\+84)[3|5|7|8|9][0-9]{8}$/g.test(phone.value)) {
-            phoneError.textContent = 'Please enter a valid phone number';
-            phoneError.forcus();
-            return false;
-        }
+            if (fullname.value == '') {
+                fullnameError.textContent = 'Your name is required';
+                fullnameError.forcus();
+            }
 
 
-        if(address.value == ''){
-            addressError.textContent = 'Your address is required';
-            address.forcus();
-        }
+            if (emailregister.value == '') {
+                emailregisterError.textContent = 'Email name is required';
+                emailregister.forcus();
+            }
 
-        if(passwordregister.value == ''){
-            passwordregisterError.textContent = 'Your password is required';
-            passwordregister.forcus();
-        }
-         if (passwordregister.value.length < 8) {
-            passwordregisterError.textContent = 'Password must be at least 8 characters long';
-            passwordregister.forcus();
-            return false;
+            if (!emailregister.value.includes('@')) {
+                emailregisterError.textContent = 'Email must be valid';
+                emailregister.focus();
+                return false;
+            }
 
-        }
+            if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(emailregister.value)) {
+                emailregisterError.textContent = 'Please enter a valid email address';
+                emailError.focus();
+                return false;
+            }
 
-        if(repasswordregister.value != passwordregister.value){
-            repasswordregisterError.textContent = 'Password does not match password above';
-            repasswordregister.forcus();
-            return false;
-        }
-        this.submit();
-    })
+
+            if (phone.value == '') {
+                phoneError.textContent = 'Your phone is required';
+                phoneError.forcus();
+            }
+
+            if (!/^(0|\+84)[3|5|7|8|9][0-9]{8}$/g.test(phone.value)) {
+                phoneError.textContent = 'Please enter a valid phone number';
+                phoneError.forcus();
+                return false;
+            }
+
+
+            if (address.value == '') {
+                addressError.textContent = 'Your address is required';
+                address.forcus();
+            }
+
+            if (passwordregister.value == '') {
+                passwordregisterError.textContent = 'Your password is required';
+                passwordregister.forcus();
+            }
+            if (passwordregister.value.length < 8) {
+                passwordregisterError.textContent = 'Password must be at least 8 characters long';
+                passwordregister.forcus();
+                return false;
+
+            }
+
+            if (repasswordregister.value != passwordregister.value) {
+                repasswordregisterError.textContent = 'Password does not match password above';
+                repasswordregister.forcus();
+                return false;
+            }
+            this.submit();
+        })
     </script>
     <script>
         const formLogin = document.querySelector('#login');
@@ -186,50 +204,50 @@ if(!empty($_SESSION['user'])){
         const password = document.querySelector('#password');
         const emailError = document.querySelector('#emailError');
         const passwordError = document.querySelector('#passwordError');
-        formLogin.addEventListener('submit', function(event) {
-        event.preventDefault();
+        formLogin.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-        emailError.textContent = '';
-        passwordError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
 
-        if (email.value === '') {
-            emailError.textContent = 'Email is required';
-            email.focus();
-            return false;
-        }
-        if (!email.value.includes('@')) {
-            emailError.textContent = 'Email must be valid';
-            email.focus();
-            return false;
-        }
-        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email.value)) {
+            if (email.value === '') {
+                emailError.textContent = 'Email is required';
+                email.focus();
+                return false;
+            }
+            if (!email.value.includes('@')) {
+                emailError.textContent = 'Email must be valid';
+                email.focus();
+                return false;
+            }
+            if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email.value)) {
                 emailError.textContent = 'Please enter a valid email address';
                 emailError.focus();
                 return false;
             }
 
 
-        if (password.value === '') {
-            passwordError.textContent = 'Password is required';
-            password.focus();
-            return false;
-        }
+            if (password.value === '') {
+                passwordError.textContent = 'Password is required';
+                password.focus();
+                return false;
+            }
 
-        this.submit();
-    })
+            this.submit();
+        })
     </script>
 
-<script>
-$(document).ready(function() {
-  var error = "<?php echo isset($_SESSION['error']) ? $_SESSION['error'] : '' ?>";
-  
-  // Nếu có giá trị error thì hiển thị lên màn hình
-  if (error) {
-    alertify.alert(error);
-  }
-});
-<?php unset($_SESSION['error'])?>
-</script>
+    <!-- <script>
+        $(document).ready(function () {
+            var error = "<?php echo isset($_SESSION['error']) ? $_SESSION['error'] : '' ?>";
+
+            // Nếu có giá trị error thì hiển thị lên màn hình
+            if (error) {
+                alertify.alert(error);
+            }
+        });
+        <?php unset($_SESSION['error']) ?>
+    </script> -->
 
 
 </body>

@@ -56,200 +56,288 @@ mysqli_close($connection);
     <!-- Document Wrapper
     ============================================= -->
     <div id="wrapper" class="clearfix">
-        <!-- Top Bar
-        ============================================= -->
-        <div id="top-bar" class="dark" style="background-color: #a3a5a7;">
-            <div class="container">
+    <header id="header" class="full-header header-size-md">
+			<div id="header-wrap">
+				<div class="container">
+					<div class="header-row justify-content-lg-between">
 
-                <div class="row justify-content-between align-items-center">
+						<!-- Logo
+						============================================= -->
+						<div id="logo" class="me-lg-4">
+							<a href="../../views/user_views/index.php" class="standard-logo"><img
+									src="../../../public/user_public/demos/shop/images/logo.png" alt="Canvas Logo"></a>
+							<a href="../../views/user_views/index.php" class="retina-logo"><img
+									src="../../../public/user_public/demos/shop/images/logo@2x.png"
+									alt="Canvas Logo"></a>
+						</div><!-- #logo end -->
 
-                    <div class="col-12 col-lg-auto">
-                        <p class="mb-0 d-flex justify-content-center justify-content-lg-start py-3 py-lg-0"><strong>Free
-                                nationwide shipping on orders over $99</strong></p>
-                    </div>
+						<div class="header-misc">
 
-                    <div class="col-12 col-lg-auto d-none d-lg-flex">
+							<!-- Top Search
+							============================================= -->
+							<div id="top-account" class="position-relative">
+								<div class="dropdown">
+									<a class="dropdown-toggle ms-2 d-none d-sm-inline-block" href="#" role="button"
+										id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+										<i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i>
+										<span class="d-none d-sm-inline-block font-primary fw-medium">
+											<?php echo $_SESSION['user']['name'] ?>
+										</span>
+									</a>
+									<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+										<li><a class="dropdown-item"
+												href="../../views/user_views/profile.php">Profile</a>
+										</li>
+										<li>
+											<div class="dropdown-divider"></div>
+										</li>
+										<li><a class="dropdown-item" href="../../process/logout.php">Logout</a>
+										</li>
+									</ul>
+								</div>
+							</div>
 
-                        <!-- Top Links
-                        ============================================= -->
-                        <div class="top-links">
-                            <ul class="top-links-container">
-                                <li class="top-links-item"><a href="#">About</a></li>
-                                <li class="top-links-item"><a href="#">FAQS</a></li>
-                                <li class="top-links-item"><a href="#">Blogs</a></li>
-                            </ul>
-                        </div><!-- .top-links end -->
+							<div id="favourite" class="position-relative">
+								<a href="../../views/user_views/profile.php#tab-replies"><i
+										class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
+							</div>
 
-                        <!-- Top Social
-                        ============================================= -->
-                        <ul id="top-social">
-                            <li><a href="#" class="si-facebook"><span class="ts-icon"><i
-                                            class="icon-facebook"></i></span><span class="ts-text">Facebook</span></a>
-                            </li>
-                            <li><a href="#" class="si-instagram"><span class="ts-icon"><i
-                                            class="icon-instagram2"></i></span><span
-                                        class="ts-text">Instagram</span></a></li>
-                            <li><a href="tel:+1.11.85412542" class="si-call"><span class="ts-icon"><i
-                                            class="icon-call"></i></span><span class="ts-text">+1.11.85412542</span></a>
-                            </li>
-                            <li><a href="mailto:info@canvas.com" class="si-email3"><span class="ts-icon"><i
-                                            class="icon-envelope-alt"></i></span><span
-                                        class="ts-text">info@canvas.com</span></a></li>
-                        </ul><!-- #top-social end -->
+							<div class="header-misc-icon">
+								<a href="#" id="notifylink" data-bs-toggle="dropdown" data-bs-offset="0,15"
+									aria-haspopup="true" aria-expanded="false" data-offset="12,12" class=""><i
+										class="icon-line-bell notification-badge"></i></a>
+								<div class="dropdown-menu dropdown-menu-end py-0 m-0 overflow-auto"
+									aria-labelledby="notifylink" style="width: 320px; max-height: 300px;">
+									<span
+										class="dropdown-header border-bottom border-f5 fw-medium text-uppercase ls1">Notifications</span>
+									<div class="list-group list-group-flush">
+										<a href="#" class="d-flex list-group-item">
+											<img src="demos/articles/images/authors/2.jpg" width="35" height="35"
+												class="rounded-circle me-3 mt-1" alt="Profile">
+											<div class="media-body">
+												<h5 class="my-0 fw-normal text-muted"><span
+														class="text-dark fw-bold">SemiColonWeb</span> has replied on
+													your post <span class="text-dark fw-bold">Package Generator – Approx
+														time for a file.</span></h5>
+												<small class="text-smaller">10 mins ago</small>
+											</div>
+										</a>
+										<a href="#" class="d-flex list-group-item">
+											<i class="icon-line-check badge-icon bg-success text-white me-3 mt-1"></i>
+											<div class="media-body">
+												<h5 class="my-0 fw-normal text-muted"><span
+														class="text-dark fw-bold">SemiColonWeb</span> has marked to your
+													post as solved.</h5>
+												<small class="text-smaller">2 days ago</small>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
 
-                    </div>
-                </div>
+							<!-- Top Cart
+							============================================= -->
+							<div id="top-cart" class="header-misc-icon d-none d-sm-block">
+								<a href="#" id="top-cart-trigger">
+									<i class="icon-line-bag"></i>
+									<?php
+									if (!empty($_SESSION['cart'])) {
+										$total_quantity = 0;
+										$unique_products = array();
+										foreach ($_SESSION['cart'] as $index => $cart_item) {
+											$total_quantity += $cart_item['quantity'];
+											if (!in_array($cart_item['name'], $unique_products)) {
+												array_push($unique_products, $cart_item['name']);
+											}
+										}
+										$num_unique_products = count($unique_products);
+										if ($num_unique_products > 3) {
+											$num_displayed_products = 3;
+										} else {
+											$num_displayed_products = $num_unique_products;
+										}
+									} else {
+										$total_quantity = 0;
+										$num_displayed_products = 0;
+									}
+									?>
+									<span class="top-cart-number">
+										<?php echo $total_quantity; ?>
+									</span>
+								</a>
+								<div class="top-cart-content">
+									<div class="top-cart-title">
+										<h4>Shopping Cart</h4>
+									</div>
+									<div class="top-cart-items">
+										<?php
+										if (!empty($_SESSION['cart'])) {
+											$displayed_products = array();
+											foreach ($_SESSION['cart'] as $index => $cart_item) {
+												if (in_array($cart_item['name'], $displayed_products)) {
+													continue;
+												}
+												array_push($displayed_products, $cart_item['name']);
+												if (count($displayed_products) > $num_displayed_products) {
+													break;
+												}
+												?>
+												<div class="top-cart-item">
+													<div class="top-cart-item-image">
+														<a href="#"><img
+																src="../../../public/image/<?php echo $cart_item['image'] ?>"
+																alt="<?php echo $cart_item['name'] ?>" /></a>
+													</div>
+													<div class="top-cart-item-desc">
+														<div class="top-cart-item-desc-title">
+															<a href="#">
+																<?php echo $cart_item['name'] ?>
+															</a>
+															<span class="top-cart-item-price d-block">
+																$
+																<?php echo number_format($cart_item['price'], 0, '.', ','); ?>
+															</span>
+														</div>
+														<div class="top-cart-item-quantity">x
+															<?php echo $cart_item['quantity'] ?>
+														</div>
+													</div>
+												</div>
+											<?php }
+										} else {
+											echo 'Add new products to cart';
+										}
+										?>
+									</div>
+									<div class="top-cart-action">
+										<?php
+										if (!empty($_SESSION['cart'])) {
+											$total_price = 0;
+											foreach ($_SESSION['cart'] as $index => $cart_item) {
+												$total_price += $cart_item['quantity'] * $cart_item['price'];
+											}
+										} else {
+											$total_price = 0;
+										}
+										?>
+										<span class="top-checkout-price">
+											$
+											<?php echo number_format($total_price, 0, '.', ','); ?>
+										</span>
 
-            </div>
-        </div>
+										<a href="../user_views/cart.php" class="button button-3d button-small m-0">View
+											Cart</a>
+									</div>
+								</div>
+							</div><!-- #top-cart end -->
 
-        <!-- Header
-        ============================================= -->
-        <header id="header" class="full-header header-size-md">
-            <div id="header-wrap">
-                <div class="container">
-                    <div class="header-row justify-content-lg-between">
+							<!-- Top Search
+							============================================= -->
+							<div id="top-search" class="header-misc-icon">
+								<a href="#" id="top-search-trigger"><i class="icon-line-search"></i><i
+										class="icon-line-cross"></i></a>
+							</div><!-- #top-search end -->
 
-                        <!-- Logo
-                        ============================================= -->
-                        <div id="logo" class="me-lg-4">
-                            <a href="../../views/user_views/index.php" class="standard-logo"><img
-                                    src="../../../public/user_public/demos/shop/images/logo.png" alt="Canvas Logo"></a>
-                            <a href="../../views/user_views/index.php" class="retina-logo"><img
-                                    src="../../../public/user_public/demos/shop/images/logo@2x.png"
-                                    alt="Canvas Logo"></a>
-                        </div><!-- #logo end -->
+						</div>
 
-                        <div class="header-misc">
+						<div id="primary-menu-trigger">
+							<svg class="svg-trigger" viewBox="0 0 100 100">
+								<path
+									d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20">
+								</path>
+								<path d="m 30,50 h 40"></path>
+								<path
+									d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20">
+								</path>
+							</svg>
+						</div>
 
-                            <!-- Top Search
-                            ============================================= -->
-                            <div id="top-account">
-                              
-                                    <i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i><span
-                                        class="d-none d-sm-inline-block font-primary fw-medium">
-                                        <?php echo $_SESSION['user']['name'] ?>
-                                    </span>
-                               
-                            </div><!-- #top-search end -->
+						<!-- Primary Navigation
+						============================================= -->
+						<nav class="primary-menu with-arrows me-lg-auto">
 
-                            <!-- Top Cart
-                            ============================================= -->
-                            <div id="top-cart" class="header-misc-icon d-none d-sm-block">
-                                <a href="#" id="top-cart-trigger">
-                                    <i class="icon-line-bag"></i>
-                                    <?php if (!empty($_SESSION['cart'])) {
-                                        $total_quantity = 0;
-                                        foreach ($_SESSION['cart'] as $index => $cart_item) {
-                                            $total_quantity += $cart_item['quantity'];
-                                        }
-                                    } else {
-                                        $total_quantity = 0;
-                                    } ?>
-                                    <span class="top-cart-number">
-                                        <?php echo $total_quantity; ?>
-                                    </span>
-                                </a>
-                                <div class="top-cart-content">
-                                    <div class="top-cart-title">
-                                        <h4>Shopping Cart</h4>
-                                    </div>
-                                    <div class="top-cart-items">
-                                        <?php if (!empty($_SESSION['cart'])) {
-                                            foreach ($_SESSION['cart'] as $index => $cart_item) {
-                                                ?>
-                                                <div class="top-cart-item">
-                                                    <div class="top-cart-item-image">
-                                                        <a href="#"><img
-                                                                src="../../../public/image/<?php echo $cart_item['image'] ?>"
-                                                                alt="<?php echo $cart_item['name'] ?>" /></a>
-                                                    </div>
-                                                    <div class="top-cart-item-desc">
-                                                        <div class="top-cart-item-desc-title">
-                                                            <a href="#">
-                                                                <?php echo $cart_item['name'] ?>
-                                                            </a>
-                                                            <span class="top-cart-item-price d-block">
-                                                                $
-                                                                <?php echo number_format($cart_item['price'], 0, '.', ','); ?>
-                                                            </span>
-                                                        </div>
-                                                        <div class="top-cart-item-quantity">x
-                                                            <?php echo $cart_item['quantity'] ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php }
-                                        } else {
-                                            echo 'Add new products to cart';
-                                        } ?>
-                                    </div>
-                                    <div class="top-cart-action">
-                                        <?php if (!empty($_SESSION['cart'])) {
-                                            $total_price = 0;
-                                            foreach ($_SESSION['cart'] as $index => $cart_item) {
-                                                $total_price += $cart_item['quantity'] * $cart_item['price'];
-                                            }
-                                        } else {
-                                            $total_price = 0;
-                                        } ?>
-                                        <span class="top-checkout-price">
-                                            $
-                                            <?php echo number_format($total_price, 0, '.', ','); ?>
-                                        </span>
-                                        <a href="../user_views/cart.php" class="button button-3d button-small m-0">View
-                                            Cart</a>
-                                    </div>
-                                </div>
-                            </div><!-- #top-cart end -->
+							<ul class="menu-container">
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'laptop-04-03-8393') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'smart-phone-04-03-6291') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'laptop-04-04-7607') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<li class="menu-item mega-menu sub-menu"><a class="menu-link" href="#">
+										<div>Other<i class="icon-angle-down"></i></div>
+									</a>
+									<div class="mega-menu-content mega-menu-style-2" style="width: 1196.67px;">
+										<div class="container" style="">
+											<div class="row">
+												<?php foreach ($categories as $category) {
+													if ($category['category_slug'] != 'laptop-04-03-8393' && $category['category_slug'] != 'smart-phone-04-03-6291' && $category['category_slug'] != 'laptop-04-04-7607') { ?>
 
-                            <!-- Top Search
-                            ============================================= -->
-                            <div id="top-search" class="header-misc-icon">
-                                <a href="#" id="top-search-trigger"><i class="icon-line-search"></i><i
-                                        class="icon-line-cross"></i></a>
-                            </div><!-- #top-search end -->
+														<ul class="mega-menu-column sub-menu-container col-lg-4 border-start-0"
+															style="">
 
-                        </div>
+															<li class="mega-menu-title menu-item sub-menu"><a class="menu-link"
+																	href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+																	<div>
+																		<?php
+																		echo $category['category_name']
+																			?>
+																	</div>
+																</a></li>
+														</ul>
+													<?php }
+												} ?>
+											</div>
+										</div>
+									</div>
+									<button class="sub-menu-trigger icon-chevron-right"></button>
+								</li>
+							</ul>
 
-                        <div id="primary-menu-trigger">
-                            <svg class="svg-trigger" viewBox="0 0 100 100">
-                                <path
-                                    d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20">
-                                </path>
-                                <path d="m 30,50 h 40"></path>
-                                <path
-                                    d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20">
-                                </path>
-                            </svg>
-                        </div>
+						</nav><!-- #primary-menu end -->
 
-                        <!-- Primary Navigation
-                        ============================================= -->
-                        <nav class="primary-menu with-arrows me-lg-auto">
+						<form class="top-search-form" action="../../views/user_views/search.php" method="get">
+							<input type="text" name="keyword" class="form-control" value=""
+								placeholder="Type &amp; Hit Enter.." autocomplete="off">
+						</form>
 
-                            <ul class="menu-container">
-                                <?php foreach ($categories as $category) { ?>
-                                    <li class="menu-item current"><a class="menu-link" href="#">
-                                            <div>
-                                                <?php echo $category['category_name'] ?>
-                                            </div>
-                                        </a></li>
-                                <?php } ?>
-                            </ul>
-
-                        </nav><!-- #primary-menu end -->
-
-                        <form class="top-search-form" action="../../process/search.php" method="get">
-                            <input type="text" name="keyword" class="form-control" value=""
-                                placeholder="Type &amp; Hit Enter.." autocomplete="off">
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-            <div class="header-wrap-clone"></div>
-        </header><!-- #header end -->
+					</div>
+				</div>
+			</div>
+			<div class="header-wrap-clone"></div>
+		</header><!-- #header end -->
 
 
         <!-- Slider

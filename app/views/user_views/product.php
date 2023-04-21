@@ -36,16 +36,18 @@ if(empty($_SESSION['user'])){
 									}
 		} else{
 			$category_slug = $_GET['category_slug'];
-			$sql = 'SELECT * FROM categories WHERE category_slug = ?';
-			$stmt = $connection->prepare($sql);
-			$stmt->bind_param('s', $category_slug);
-			$stmt->execute();
-			$result = $stmt->get_result();
-			$categories_wid = array();
-			if ($result->num_rows > 0) {
-				while ($row = $result->fetch_assoc()) {
-					$categories_wid[] = $row;
-				}
+			$category_result = array();
+			$product_result = array();
+			$sql_get_category = "SELECT * FROM categories WHERE category_slug = '$category_slug'";
+			$result_get_category = $connection->query($sql_get_category);
+			if ($result_get_category->num_rows == 1) {
+				$category_result = $result_get_category->fetch_assoc();
+			}
+			$category_id = $category_result['category_id'];
+			$sql_get_product = "SELECT * FROM products WHERE category_id = '$category_id'";
+			$result_get_product = $connection->query($sql_get_product);
+			if ($result_get_product->num_rows > 0) {
+				$product_result = $result_get_product->fetch_all(MYSQLI_ASSOC);
 			}
 		}
 
@@ -106,7 +108,8 @@ require_once('../../views/user_views/components/head.php'); ?>
 							</div>
 
 							<div id="favourite" class="position-relative">
-								<a href="../../views/user_views/profile.php#tab-replies"><i class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
+								<a href="../../views/user_views/profile.php#tab-replies"><i
+										class="icon-line-heart me-1 position-relative" style="top: 1px;"></i></a>
 							</div>
 
 							<div class="header-misc-icon">
@@ -262,17 +265,75 @@ require_once('../../views/user_views/components/head.php'); ?>
 						<!-- Primary Navigation
 						============================================= -->
 						<nav class="primary-menu with-arrows me-lg-auto">
-
+										
 							<ul class="menu-container">
 								<?php foreach ($categories as $category) {
-									 ?>
-									<li class="menu-item current"><a class="menu-link"
-											href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
-											<div>
-												<?php echo $category['category_name'] ?>
+									if ($category['category_slug'] == 'laptop-04-03-8393') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'smart-phone-04-03-6291') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<?php foreach ($categories as $category) {
+									if ($category['category_slug'] == 'laptop-04-04-7607') {
+										?>
+										<li class="menu-item current"><a class="menu-link"
+												href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+												<div>
+													<?php
+													echo $category['category_name']
+														?>
+												</div>
+											</a></li>
+									<?php }
+								} ?>
+								<li class="menu-item mega-menu sub-menu"><a class="menu-link" href="#">
+										<div>Other<i class="icon-angle-down"></i></div>
+									</a>
+									<div class="mega-menu-content mega-menu-style-2" style="width: 1196.67px;">
+										<div class="container" style="">
+											<div class="row">
+												<?php foreach ($categories as $category) {
+													if ($category['category_slug'] != 'laptop-04-03-8393' && $category['category_slug'] != 'smart-phone-04-03-6291' && $category['category_slug'] != 'laptop-04-04-7607') { ?>
+
+														<ul class="mega-menu-column sub-menu-container col-lg-4 border-start-0"
+															style="">
+
+															<li class="mega-menu-title menu-item sub-menu"><a class="menu-link"
+																	href="../../views/user_views/product.php?category_slug=<?php echo $category['category_slug'] ?>">
+																	<div>
+																		<?php
+																		echo $category['category_name']
+																			?>
+																	</div>
+																</a></li>
+														</ul>
+													<?php }
+												} ?>
 											</div>
-										</a></li>
-								<?php } ?>
+										</div>
+									</div>
+									<button class="sub-menu-trigger icon-chevron-right"></button>
+								</li>
 							</ul>
 
 						</nav><!-- #primary-menu end -->
@@ -391,22 +452,20 @@ require_once('../../views/user_views/components/head.php'); ?>
 						<?php }else{?>
 					<!-- New Arrivals Men
 				============================================= -->
-					<?php 
-					 foreach ($categories_wid as $category) {
-						 ?>
-					
 						<div class="container clearfix">
-
-							<div class="fancy-title title-border topmargin-sm mb-4 title-center">
-								<h4>
-									<?php echo $category['category_name'] ?>
-								</h4>
-							</div>
-
+						<?php 
+					if (!empty($category_result)) {
+						?>
+						<div class="fancy-title title-border topmargin-sm mb-4 title-center">
+							<h4>
+								<?php echo $category_result['category_name'] ?>
+							</h4>
+						</div>
+					<?php } ?>
 							<div class="row grid-6">
 								<?php
-								foreach ($products as $product) {
-									if ($product['category_id'] == $category['category_id']) { ?>
+								foreach ($product_result as $product) {
+						?>
 										<div class="col-lg-2 col-md-3 col-6 px-2">
 											<div class="product">
 												<div class="product-image">
@@ -461,7 +520,6 @@ require_once('../../views/user_views/components/head.php'); ?>
 								} ?>
 							</div>
 						</div>
-					<?php }} ?>
 				
 				</div>
 		</section><!-- #content end -->
